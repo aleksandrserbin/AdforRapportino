@@ -1,9 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package it.adfor.rapportino;
+
+import it.adfor.rapportino.dao.ProjectDao;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
-    
+    public static void main(String[] args){
+        AnnotationConfigApplicationContext ctx =new AnnotationConfigApplicationContext(AppConfig.class);
+        ProjectDao p = (ProjectDao) ctx.getBean("projectDao");
+        System.out.println(p.findById(1417).getName());
+    }
 }

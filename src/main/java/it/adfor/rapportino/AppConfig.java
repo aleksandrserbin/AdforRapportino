@@ -1,4 +1,5 @@
 package it.adfor.rapportino;
+import it.adfor.rapportino.model.Project;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
@@ -20,9 +21,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @author alex
  */
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 @ComponentScan(basePackages = "it.adfor.rapportino")
-@PropertySource(value = {"classpath:application.properties"})
+@PropertySource(value = {"classpath:properties/properties.properties"})
 public class AppConfig {
 
     @Autowired
@@ -39,7 +40,7 @@ public class AppConfig {
     public LocalSessionFactoryBean getSessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(getDataSource());
-        sessionFactory.setPackagesToScan(new String[]{"ru.sbi.app.musicquiz.springmvc.model"});
+        sessionFactory.setPackagesToScan(new String[]{"it.adfor.rapportino"});
         sessionFactory.setHibernateProperties(getHibernateProperties());
         return sessionFactory;
     }
@@ -51,6 +52,7 @@ public class AppConfig {
         dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
         dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+        
         return dataSource;
     }
     
@@ -73,4 +75,6 @@ public class AppConfig {
        txManager.setSessionFactory(s);
        return txManager;
     }
+    
+   
 }

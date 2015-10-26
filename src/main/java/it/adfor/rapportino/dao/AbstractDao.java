@@ -17,8 +17,17 @@ import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
  */
 public abstract class AbstractDao<T> extends HibernateDaoSupport implements DAO<T> {
     
-    private Class<T> parameterType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-            
+    protected Class<T> parameterType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    
+    
+    @Autowired
+    private SessionFactory sessionFactory;
+    
+    @Autowired
+    private void initSessionFactory(){
+        setSessionFactory(sessionFactory);
+    }
+    
     @Override
     public T findById(Integer id) {
         return getHibernateTemplate().get(parameterType, id);

@@ -24,10 +24,10 @@ import static javax.persistence.TemporalType.DATE;
 public class Activity {
     @Id @GeneratedValue
     private Integer id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empl_id", nullable = false)
     private Staff empl;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proj_id", nullable = false)
     private Project proj;
     @Temporal(DATE)
