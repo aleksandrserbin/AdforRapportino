@@ -13,13 +13,21 @@ import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 /**
  *
- * @author alex
+ * @author aleksandrserbin
+ * <p> Abstract implementation of DAO interface </p>
+ * <p> For method defenitions 
+ * @see it.adfor.rapportino.dao.DAO </p>
+ * @see it.adfor.rapportino.dao.ActivityDao
+ * @see it.adfor.rapportino.dao.ProjectDao
  */
 public abstract class AbstractDao<T> extends HibernateDaoSupport implements DAO<T> {
     
     protected Class<T> parameterType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     
-    
+    /**
+     * SessionFactory for interaction with database
+     * SessionFactory can be configured in properties.properties file
+     */
     @Autowired
     private SessionFactory sessionFactory;
     
