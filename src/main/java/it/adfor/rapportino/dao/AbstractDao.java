@@ -7,6 +7,7 @@ package it.adfor.rapportino.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import javax.transaction.Transactional;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
@@ -20,20 +21,22 @@ import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
  * @see it.adfor.rapportino.dao.ActivityDao
  * @see it.adfor.rapportino.dao.ProjectDao
  */
+@Transactional
 public abstract class AbstractDao<T> extends HibernateDaoSupport implements DAO<T> {
     
-    protected Class<T> parameterType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    protected Class<T> parameterType;
     
     /**
      * SessionFactory for interaction with database
      * SessionFactory can be configured in properties.properties file
      */
     @Autowired
-    private SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
     
     @Autowired
-    private void initSessionFactory(){
+    protected void initSessionFactory(){
         setSessionFactory(sessionFactory);
+        
     }
     
     @Override
@@ -56,5 +59,5 @@ public abstract class AbstractDao<T> extends HibernateDaoSupport implements DAO<
         getHibernateTemplate().delete(obj);
     }
     
-    
+   
 }
