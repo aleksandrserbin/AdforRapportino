@@ -13,7 +13,16 @@ module.factory('Activity', function ($resource) {
             $scope.update = update;
             $scope.add = function(){
                 var activity =  new Activity();
+                activity.empl = $scope.userid;
+                activity.hours = $scope.hours;
+                activity.proj = $scope.projectid;
+                activity.date= $scope.date;
+                activity.$save(url(),function(){
+                    update();
+                })
             }
+            
+            update();
         })
 
 

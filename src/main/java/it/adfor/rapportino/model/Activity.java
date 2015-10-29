@@ -6,6 +6,9 @@
 
 package it.adfor.rapportino.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +24,9 @@ import static javax.persistence.TemporalType.DATE;
 
 @Entity
 @Table(name="Activity")
-public class Activity {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonAutoDetect
+public class Activity implements Serializable{
     @Id @GeneratedValue
     private Integer id;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,7 +42,7 @@ public class Activity {
     private String note;
     private Integer hours;
     @Column(name="type_id")
-    private Integer type_id;
+    private Integer typeId;
 
     public Activity(Staff empl, Project proj, Date date, String description, String place, String note, Integer hours) {
         this.empl = empl;
@@ -50,7 +55,7 @@ public class Activity {
     }
 
     public void setType_id(Integer type_id) {
-        this.type_id = type_id;
+        this.typeId = type_id;
     }
 
     public Activity() {
@@ -61,7 +66,7 @@ public class Activity {
         this.place = null;//
         this.note = null;//
         this.hours = null;//
-        this.type_id=null;//
+        this.typeId=null;//
     }
 
     public Integer getId() {
@@ -70,6 +75,10 @@ public class Activity {
 
     public Staff getEmpl() {
         return empl;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     public Project getProj() {
@@ -104,6 +113,10 @@ public class Activity {
         this.empl = empl;
     }
 
+    public Integer getTypeId() {
+        return typeId;
+    }
+
     public void setProj(Project proj) {
         this.proj = proj;
     }
@@ -130,7 +143,7 @@ public class Activity {
 
     @Override
     public String toString() {
-        return "Activity{" + "id=" + id + ", empl=" + empl + ", proj=" + proj + ", date=" + date + ", description=" + description + ", place=" + place + ", note=" + note + ", hours=" + hours + ", type_id=" + type_id + '}';
+        return "Activity{" + "id=" + id + ", empl=" + empl + ", proj=" + proj + ", date=" + date + ", description=" + description + ", place=" + place + ", note=" + note + ", hours=" + hours + ", type_id=" + typeId + '}';
     }
     
     

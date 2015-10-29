@@ -6,6 +6,9 @@
 
 package it.adfor.rapportino.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,9 +18,12 @@ import javax.persistence.Table;
  *
  * @author AlexOne
  */
+
 @Entity
 @Table(name="Divisions")
-public class Division {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonAutoDetect
+public class Division implements Serializable{
     @Id @GeneratedValue
     private Integer id;
     private String name;

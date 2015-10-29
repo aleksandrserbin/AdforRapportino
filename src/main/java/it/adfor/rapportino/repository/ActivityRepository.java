@@ -6,11 +6,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-
+@RepositoryRestResource(exported=false)
 public interface ActivityRepository extends CrudRepository<Activity, Integer>{
-    Collection<Activity> findByStaffId(Integer id);
-    Optional<Activity> findByProjectId(Integer id);
-    Optional<Activity> findByType_id(Integer id);
+    Collection<Activity> findByEmplId(Integer id);
+    Optional<Activity> findByProjId(Integer id);
+    Optional<Activity> findByTypeId(Integer id);
     Optional<Activity> findByDateBetween(Date beg, Date end);
 }

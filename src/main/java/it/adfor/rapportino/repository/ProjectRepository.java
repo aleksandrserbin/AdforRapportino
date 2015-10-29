@@ -6,8 +6,9 @@ import it.adfor.rapportino.model.Project;
 import java.util.Date;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-
+@RepositoryRestResource(exported=false)
 public interface ProjectRepository extends CrudRepository<Project, Integer>{
         Optional<Project> findByClientId(Integer id);
         Optional<Project> findByPmId(Integer id);

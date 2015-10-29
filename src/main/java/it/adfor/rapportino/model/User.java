@@ -6,6 +6,7 @@
 
 package it.adfor.rapportino.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 public class User {
     @Id @Column(name = "username", nullable = false)
     private String username;
+    @JsonIgnore
     private String password;
     private Integer staff_id;
 
