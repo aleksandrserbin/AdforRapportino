@@ -24,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @PropertySource("classpath:properties/properties.properties")
 public class Main {
     public static void main(String[] args){
-        SpringApplication.run(Main.class, args);	
+        SpringApplication.run(new Object[]{Main.class, RepositoryConfig.class, AppConfig.class}, args);
+        
     }
 }

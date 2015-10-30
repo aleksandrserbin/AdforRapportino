@@ -7,6 +7,7 @@
 package it.adfor.rapportino.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,14 +19,25 @@ import javax.persistence.Table;
  * @author AlexOne
  */
 @Entity
-@Table(name="Users")
+@Table(name="users")
 public class User {
+    
     @Id @Column(name = "username", nullable = false)
+    @JsonProperty("username")
     private String username;
     @JsonIgnore
     private String password;
     private Integer staff_id;
+    private short scope;
 
+    public short getScope() {
+        return scope;
+    }
+
+    public void setScope(short scope) {
+        this.scope = scope;
+    }
+    
     public void setStaff_id(Integer staff_id) {
         this.staff_id = staff_id;
     }

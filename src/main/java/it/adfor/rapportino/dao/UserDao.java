@@ -6,5 +6,5 @@
 package it.adfor.rapportino.dao;
 
 public interface UserDao {
-    public boolean checkIfExists();
+    public boolean checkIfExists(String username, String pass);
 }

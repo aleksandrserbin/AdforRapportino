@@ -1,9 +1,13 @@
 package it.adfor.rapportino;
+import it.adfor.rapportino.dao.UserDao;
+import it.adfor.rapportino.dao.UserDaoImpl;
 import it.adfor.rapportino.model.Project;
+import it.adfor.rapportino.model.User;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.rest.SpringBootRepositoryRestMvcConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -26,7 +31,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableTransactionManagement
 @ComponentScan(basePackages = "it.adfor.rapportino")
 @PropertySource(value = {"classpath:properties/properties.properties"})
-public class AppConfig {
+public class AppConfig{
 
     @Autowired
     Environment environment;
@@ -77,6 +82,13 @@ public class AppConfig {
        txManager.setSessionFactory(s);
        return txManager;
     }
+    
+    @Bean(name="userDao")
+    public UserDao getUserDao(){
+        return new UserDaoImpl();
+    }
+    
+    
     
    
 }

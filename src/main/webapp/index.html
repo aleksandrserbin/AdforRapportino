@@ -1,34 +1,48 @@
 <!doctype html>
 <html ng-app="Rapportino">
-	<head>
-		<title>Rapportino</title>
-		<script src="https://code.angularjs.org/1.4.7/angular.js"></script>
-		<script src="https://code.angularjs.org/1.4.7/angular-resource.js"></script>
-    		<script src="js/activity.js"></script>
-	</head>
+    <head>
+        <title>Rapportino</title>
+        <script src="https://code.angularjs.org/1.4.7/angular.js"></script>
+        <script src="https://code.angularjs.org/1.4.7/angular-resource.js"></script>
+        <script src="js/activity.js"></script>
+    </head>
 
-	<body ng-controller="ActivityController">
-		Userid <input ng-model="userid"> <button ng-click="update()" ng-enter="update()">update</button>
-		<div ng-repeat="a in activities" style="background-color:#EEE;padding:5px;width:300px;border:1px solid black;margin:10px;'">
-			<p>The ID is {{a.id}}</p>
-			<p>The content is {{a.proj.name}}</p>
-		</div>
-		Add note:<br>
-                <table>
-                    <tr>
-                        <td> Project Id</td>
-                        <td><input ng-model="projid" type="text"></td>
-                    </tr>
-                    <tr>
-                        <td> Date</td>
-                        <td><input ng-model="date" type="date"></td>
-                    </tr>
-                    <tr>
-                        <td>Hours</td>
-                        <td><input ng-model="hours" type="text"></td>
-                    </tr>
-                    
-                </table>
-		<button ng-click="add()">Add note</button>
-	</body>
+    <body >
+        <div></div>
+       
+            <div ng-controller="UserController">
+            <input ng-model="username">
+            <input ng-model="pass">
+            <button ng-click="login()" ng-enter="login()">Submit</button>
+            </div>
+        
+       
+            <div ng-model="activityWindow" ng-controller="ActivityController">
+            Userid <input ng-model="userid"> <button ng-click="update()" ng-enter="update()">update</button>
+            <div ng-repeat="a in activities" style="background-color:#EEE;padding:5px;width:300px;border:1px solid black;margin:10px;'">
+                <p>The ID is {{a.id}}</p>
+                <p>The content is {{a.proj.name}}</p>
+            </div>
+            Add note:<br>
+            <table>
+                <tr>
+                    <td> Project Id</td>
+                    <td><input ng-model="projid" type="text"></td>
+                </tr>
+                <tr>
+                    <td> Date</td>
+                    <td><input ng-model="date" type="date"></td>
+                </tr>
+                <tr>
+                    <td>Hours</td>
+                    <td><input ng-model="hours" type="text"></td>
+                </tr>
+
+            </table>
+            <button ng-click="add()">Add note</button>
+        </div>
+
+        
+        
+    </body>
 </html>
