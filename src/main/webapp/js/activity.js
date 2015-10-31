@@ -1,6 +1,15 @@
-var module = angular.module('Rapportino', ['ngResource']);
+var module = angular.module('Rapportino', ['ngResource','ngRoute']);
 
-
+module.config(function ($routeProvider) {
+    $routeProvider.when("/",{
+        templateUrl : "login.html",
+        controller: "UserController"    
+        
+    }).when("/act",{
+        templateUrl : "act.html",
+        controller : "ActivityController"
+    });
+});
 
 
 module.factory('Activity', function ($resource) {
@@ -34,7 +43,7 @@ module.factory('Activity', function ($resource) {
             $scope.ac_win_show = false;
         })
 
-module.controller('UserController', function ($scope, $http) {
+module.controller('UserController', function ($scope, $http, $location) {
 
 
     $scope.login = login;
@@ -49,7 +58,9 @@ module.controller('UserController', function ($scope, $http) {
         }).then(function successCallback(response) {
             $scope.rights = response.data.scope;
             $scope.userid = response.data.staff_id;
-            
+            if ($scope.userid==null && $scope.rights<32) $location.path("/err?code=0");
+            if ($scope.userid!=null || $scope.rights>=32) $location.path("/cp");
+            $location.path("/act");
             
         }, function errorCallback(response) {
             alert("err");
@@ -57,3 +68,4 @@ module.controller('UserController', function ($scope, $http) {
     }
 })
 
+// error codes  - 0 - incorrect login or password

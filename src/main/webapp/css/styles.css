@@ -1,0 +1,158 @@
+/* Company Colours 
+
+working obly with less css
+@org=#FCBB2D;
+darkerorg = #E3A828
+@bl=#2B3E75;*/ 
+
+#wrapper {
+
+	width:70%;
+	margin: 0 auto;
+	margin-top: 20;
+	background-color: white;
+	border: 1px solid #2B3E75;
+}
+
+#menu{
+	padding:5px;
+	background-color: #2B3E75;
+}
+
+#menu .elem {
+	padding:5px;
+	margin-right: 10px;
+        padding-left: 10px;
+	display: inline-block;
+	color:white;
+        text-align: center;
+        
+}
+
+
+#menu .elem:hover {
+	background-color: #FCBB2D;
+}
+
+
+#header {
+	background-color: #FCBB2D;
+	border-bottom: 1px solid #2B3E75;
+
+}
+
+#header .elem{
+
+	display: inline-block;
+	color: white;
+	margin:5px;
+	padding: 5px;
+	vertical-align: middle;
+}
+
+#header .elem:hover{
+
+	display: inline-block;
+	color: #2B3E75;
+	margin:5px;
+	padding: 5px;
+	vertical-align: middle;
+}
+
+#hlogo {
+	display: inline-block;
+	width: 40%;
+	margin-right: 20%;
+}
+
+#logform {
+	margin: 20px auto;
+	width: 50%;
+	text-align: center;
+}
+
+#logform table{
+	width:60%;
+}
+
+#logform input[type="submit"] {
+	margin: 10 auto;
+
+	text-align: center;
+}
+
+#logform input[type="text"] {
+	width:100%;
+}
+
+#footer{
+	background-color: #2B3E75;
+	height: 10%;
+	text-align: center;
+	padding:10px;
+	color:white;
+}
+
+#err {
+    background-color: #FF8080;
+    border: 2px solid red;
+    color:black;
+    text-align: center;
+}
+
+
+#menulist{
+    list-style-type: none;
+}
+
+td{
+    padding:5px;
+}
+form{
+    margin:10px;
+}
+
+#projChart {
+    width:50%;
+    display: inline-block;
+}
+
+#chartLegend{
+    width:25%;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+#datasum {
+    font-size: 16px;
+    text-align: center;
+}
+
+.submenu{
+    margin: 10px 20%;
+    width: 58%;
+}
+
+#workspace{
+    padding: 10px;
+}
+
+
+.pie-legend li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+}
+
+.pie-legend {
+   list-style-type: none;
+}
+
+#projTable{
+    margin: 10% auto;
+    border: 1px solid #2B3E75;
+}
+#projTable td{
+    border: 1px solid #2B3E75;
+}
