@@ -66,13 +66,14 @@ darkerorg = #E3A828
 }
 
 #logform {
-	margin: 20px auto;
+        display: inline-block;
+	margin: 20px 23%;
 	width: 50%;
 	text-align: center;
 }
 
-#logform table{
-	width:60%;
+#logform table td{
+	width:50%;
 }
 
 #logform input[type="submit"] {
@@ -156,3 +157,19 @@ form{
 #projTable td{
     border: 1px solid #2B3E75;
 }
+
+aside {
+    display: inline-block;
+    width:30%;
+    
+}
+
+aside div{
+    background-color: #2B3E75;
+    color:white;
+}
+
+aside div:hover{
+    background-color: #FCBB2D;
+}
+

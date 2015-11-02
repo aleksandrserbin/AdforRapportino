@@ -1,4 +1,23 @@
 <div ng-model="activityWindow" ng-controller="ActivityController">
+    <aside>
+        <div onClick="navigate('fill')">
+            Fill Timesheet
+        </div>
+        <div>
+            <a>Watch My Data</a>
+        </div>
+        <div>
+             <a>Managed Projects</a>
+        </div>
+        <div>
+            <a>Personal Settings</a>
+        </div>
+    </aside>
+    <script src="js/activity.js"></script>
+    <div ng-model="activityFrame">
+        
+    </div>
+    
     Userid <input ng-model="userid"> <button ng-click="update()" ng-enter="update()">update</button>
     <div ng-repeat="a in activities" style="background-color:#EEE;padding:5px;width:300px;border:1px solid black;margin:10px;'">
         <p>The ID is {{a.id}}</p>

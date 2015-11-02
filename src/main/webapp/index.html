@@ -5,15 +5,22 @@
         <script src="https://code.angularjs.org/1.4.7/angular.js"></script>
         <script src="https://code.angularjs.org/1.4.7/angular-resource.js"></script>
         <script src="https://code.angularjs.org/1.4.7/angular-route.js"></script>
+        <script src="https://rawgithub.com/gsklee/ngStorage/master/ngStorage.js"></script>
+        
+        <script src="js/application.js"></script>
         <script src="js/activity.js"></script>
+        
         <link href="css/styles.css" rel ="stylesheet" type="text/css">
     </head>
 
     <body ng-controller="UserController">
-        
+
         <div id="header">
             <div class="elem">
                 <img id ="hlogo" src="res/logo.jpeg">
+            </div>
+            <div class="elem" ng-click="logout()">
+                logout
             </div>
         </div>
         <div id="wrapper">
@@ -22,7 +29,7 @@
                 Adfor 2015
             </div>
         </div>
-        
+
 
 
 
