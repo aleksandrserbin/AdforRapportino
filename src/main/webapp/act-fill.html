@@ -1,0 +1,24 @@
+<div>
+    <input ng-model="userid"> <button ng-click="update()" ng-enter="update()">update</button>
+    <div ng-repeat="a in activities" style="background-color:#EEE;padding:5px;width:300px;border:1px solid black;margin:10px;'">
+        <p>The ID is {{a.id}}</p>
+        <p>The content is {{a.proj.name}}</p>
+    </div>
+    Add note:<br>
+    <table>
+        <tr>
+            <td> Project Id</td>
+            <td><input ng-model="projid" type="text"></td>
+        </tr>
+        <tr>
+            <td> Date</td>
+            <td><input ng-model="date" type="date"></td>
+        </tr>
+        <tr>
+            <td>Hours</td>
+            <td><input ng-model="hours" type="text"></td>
+        </tr>
+
+    </table>
+    <button ng-click="add()">Add note</button>
+</div>

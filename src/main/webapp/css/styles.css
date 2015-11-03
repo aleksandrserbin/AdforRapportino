@@ -160,16 +160,26 @@ form{
 
 aside {
     display: inline-block;
-    width:30%;
-    
+    width:26%;
+    vertical-align: top;
+    height:100%;
 }
 
 aside div{
     background-color: #2B3E75;
     color:white;
+    padding:10px;
 }
-
+aside div a{
+    text-decoration: none;
+    color:white;
+    
+}
 aside div:hover{
     background-color: #FCBB2D;
 }
 
+#activityFrame{
+    display:inline-block;
+    width:66%;
+}

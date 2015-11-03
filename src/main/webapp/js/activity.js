@@ -1,7 +1,7 @@
 module.factory('Activity', function ($resource) {
     return $resource(":userid/a", {userid: '@userid'});
 })
-        .controller('ActivityController', function ($scope, Activity, $localStorage, $location) {
+        .controller('ActivityController', function ($scope, Activity, $localStorage, $state) {
             var url = function () {
                 return {userid: $scope.userid || 7};
             }
@@ -10,7 +10,7 @@ module.factory('Activity', function ($resource) {
                 console.log($localStorage);
                 if ($localStorage.userid==null || $localStorage.userid==undefined)
                  {   
-                     $location.path("/err");
+                     $state.go("/err");
                      $localStorage.err=1;
                  } else console.log($localStorage.userid);
                 $scope.activities = Activity.query(url());
@@ -32,6 +32,11 @@ module.factory('Activity', function ($resource) {
                 update();
             }
             
+            $scope.navigate = function(path){
+                switch (path) {
+                    case "fill" : 
+                }
+            }
             
             
             update();

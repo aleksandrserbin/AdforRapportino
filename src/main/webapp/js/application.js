@@ -1,16 +1,24 @@
-var module = angular.module('Rapportino', ['ngResource', 'ngRoute', 'ngStorage']);
+var module = angular.module('Rapportino', ['ngResource',  'ngStorage','ui.router']);
 
-module.config(function ($routeProvider) {
-    $routeProvider.when("/", {
+module.config(function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/act');
+    $stateProvider.state("/", {
+        url:"/",
         templateUrl: "login.html",
         controller: "UserController"
 
-    }).when("/err", {
+    }).state("/err", {
+        url:"/err",
         templateUrl: "err.html",
         controller: "ErrorController"
 
-    }).when("/act", {
+    }).state("/act", {
+        url:"/act",
         templateUrl: "act.html",
+        controller: "ActivityController"
+    }).state("/act.fill",{
+        url:"/act/fill",
+        templateUrl: "act-fill.html",
         controller: "ActivityController"
     });
 });
@@ -18,7 +26,7 @@ module.config(function ($routeProvider) {
 
 
 
-module.controller('UserController', function ($scope,  $http, $location, $localStorage) {
+module.controller('UserController', function ($scope,  $http, $state, $localStorage) {
 
 
     $scope.login = login;
@@ -39,11 +47,11 @@ module.controller('UserController', function ($scope,  $http, $location, $localS
             if ($scope.userid == undefined && $scope.rights == undefined)
             {
                 $localStorage.err=0;
-                $location.path("/err");
+                $state.go("/err");
             } else
             if ($scope.userid != null && $scope.rights >= 32)
-                $location.path("/cp"); else
-            $location.path("/act");
+                $state.go("/cp"); else
+            $state.go("/act");
 
         }, function errorCallback(response) {
             console.log(response);
@@ -53,12 +61,12 @@ module.controller('UserController', function ($scope,  $http, $location, $localS
     $scope.logout = function logout(){
         $localStorage.rights=null;
         $localStorage.userid=null;
-        $location.path("/");
+        $state.go("/");
     }
 })
 
 
-module.controller('ErrorController', function($scope, $localStorage, $location, $http){
+module.controller('ErrorController', function($scope, $localStorage, $state, $http){
     var errCode = $localStorage.err;
     console.log(errCode);
     
