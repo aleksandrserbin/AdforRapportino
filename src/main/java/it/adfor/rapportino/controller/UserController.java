@@ -34,7 +34,7 @@ public class UserController {
     UserRepository userRepository;
     
     @RequestMapping(method=RequestMethod.GET)
-    User getActivities(HttpServletRequest req) {
+    User checkUser(HttpServletRequest req) {
      
         String u = req.getParameter("username");
         String p = req.getParameter("password");

@@ -5,11 +5,16 @@ module.config(function ($routeProvider) {
         templateUrl: "login.html",
         controller: "UserController"
 
+    }).when("/err", {
+        templateUrl: "err.html",
+        controller: "ErrorController"
+
     }).when("/act", {
         templateUrl: "act.html",
         controller: "ActivityController"
     });
 });
+
 
 
 
@@ -26,19 +31,22 @@ module.controller('UserController', function ($scope,  $http, $location, $localS
                 password: $scope.pass
             }
         }).then(function successCallback(response) {
-            
-            $scope.$storage = $localStorage.$default({
-                userid: response.data.staff_id,
-                rights: response.data.scope
-            });
-            if ($scope.userid == null && $scope.rights < 32)
-                $location.path("/err?code=0");
-            if ($scope.userid != null || $scope.rights >= 32)
-                $location.path("/cp");
+            $scope.userid = response.data.staff_id;
+            $scope.rights = response.data.scope;
+            $scope.$storage = $localStorage;
+            $localStorage.userid=$scope.userid;
+            $localStorage.rights = $scope.rights; 
+            if ($scope.userid == undefined && $scope.rights == undefined)
+            {
+                $localStorage.err=0;
+                $location.path("/err");
+            } else
+            if ($scope.userid != null && $scope.rights >= 32)
+                $location.path("/cp"); else
             $location.path("/act");
 
         }, function errorCallback(response) {
-            alert("err");
+            console.log(response);
         });
     }
     
@@ -49,6 +57,23 @@ module.controller('UserController', function ($scope,  $http, $location, $localS
     }
 })
 
+
+module.controller('ErrorController', function($scope, $localStorage, $location, $http){
+    var errCode = $localStorage.err;
+    console.log(errCode);
+    
+    $http({
+            method: 'GET',
+            url: "err/"+errCode
+        }).then(function successCallback(response){
+            
+            $scope.errmsg = response.data.msg;
+            
+        }, function errCallback(response){
+            console.log(response);
+        });
+        //$localStorage.err=null;
+})
 // error codes  - 0 - incorrect login or password
 // 1 - no access
 

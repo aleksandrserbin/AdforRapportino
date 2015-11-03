@@ -7,8 +7,12 @@ module.factory('Activity', function ($resource) {
             }
             
             var update = function () {
+                console.log($localStorage);
                 if ($localStorage.userid==null || $localStorage.userid==undefined)
-                    $location.path("/?err=1"); else console.log($localStorage.userid);
+                 {   
+                     $location.path("/err");
+                     $localStorage.err=1;
+                 } else console.log($localStorage.userid);
                 $scope.activities = Activity.query(url());
             }
             
