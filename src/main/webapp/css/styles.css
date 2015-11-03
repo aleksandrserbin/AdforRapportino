@@ -186,8 +186,15 @@ aside div:hover{
 
 .activityOutput{
     border: 1px solid black;
+    margin-bottom: 20px;
+    margin-left: 5px;
+    margin-top:10px;
 }
 
 .activityOutput td {
     border: 1px solid black;
+}
+
+.module-win{
+    display:none;
 }

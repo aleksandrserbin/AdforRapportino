@@ -5,6 +5,7 @@
  */
 package it.adfor.rapportino;
 
+import it.adfor.rapportino.model.Activity;
 import it.adfor.rapportino.model.User;
 import org.springframework.boot.autoconfigure.data.rest.SpringBootRepositoryRestMvcConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,6 @@ public class RepositoryConfig  extends SpringBootRepositoryRestMvcConfiguration 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(User.class);
-        
+        config.exposeIdsFor(Activity.class);
     }
 }

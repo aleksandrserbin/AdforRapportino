@@ -29,39 +29,32 @@ public class ActivityController {
 
     @Autowired
     ActivityRepository activityRepository;
-    
-    @RequestMapping(method=RequestMethod.GET)
+
+    @RequestMapping(method = RequestMethod.GET)
     Collection<Activity> getActivities(@PathVariable Integer userid) {
         return activityRepository.findByEmplId(userid);
     }
-    
-    @RequestMapping(method=RequestMethod.GET, value="{s}_{e}")
+
+    @RequestMapping(method = RequestMethod.GET, value = "{s}_{e}")
     Collection<Activity> getActivities(@PathVariable("s") String ss, @PathVariable("e") String se, @PathVariable("userid") Integer id) {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
-             Date s = formatter.parse(ss);
-             Date e = formatter.parse(se);
-             return activityRepository.findByDateBetweenAndEmplId(s, e, id);
-        } catch (Exception ex){
+            Date s = formatter.parse(ss);
+            Date e = formatter.parse(se);
+            return activityRepository.findByDateBetweenAndEmplId(s, e, id);
+        } catch (Exception ex) {
             return null;
         }
-       
-        
     }
-    
-    
-    @RequestMapping(method=RequestMethod.POST)
+
+    @RequestMapping(method = RequestMethod.POST)
     public void addActivity(@Valid @RequestBody Activity a) {
-        System.out.println("IM IN ADDACTIVITY");
-        System.out.println(a.getDescription());
-        System.out.println(a.getNote());
-        System.out.println(a.getPlace());
-//        Project p = new Project();
-//        p.setId(pid);
-//        a.setProj(p);
         activityRepository.save(a);
     }
-    
-   
+
+    @RequestMapping(value="{a_id}",method = RequestMethod.DELETE)
+    public void deleteActivity(@PathVariable("a_id") Integer id) {
+        activityRepository.delete(id);
+    }
 
 }

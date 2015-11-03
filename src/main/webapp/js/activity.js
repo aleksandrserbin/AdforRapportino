@@ -62,7 +62,12 @@ module.factory('Activity', function ($resource) {
                 $scope.predicate = predicate;
             };
 
-
+            $scope.delete = function(id){
+                $http.delete($localStorage.userid+"/a/"+id).success(function(){
+                    alert("deleted");
+                    update();
+                });
+            }
             update();
 
             $scope.ac_win_show = false;

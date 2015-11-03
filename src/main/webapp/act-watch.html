@@ -13,10 +13,45 @@
         <td ng-click="reorder('hours')" style="background-color:#FCBB2D">Description</td>
     </tr>
     <tr ng-repeat="a in activities | orderBy:predicate:reverse ">
+        <td style="display:none">{{a.id}}</td>
         <td>{{a.proj.name}}</td>
         <td>{{a.type}}</td>
         <td>{{a.date}}</td>
         <td>{{a.hours}}</td>
         <td>{{a.description}}</td>
+        <td ng-click="delete(a.id)"><img src="res/delete.gif"></td>
+        
     </tr> 
 </table>
+<div class="module-win">
+    <table>
+        <tr>
+            <td> Project Id</td>
+            <td><input ng-model="projid" type="text"></td>
+        </tr>
+        <tr>
+            <td> Date</td>
+            <td><input ng-model="date" type="date"></td>
+        </tr>
+        <tr>
+            <td>Hours</td>
+            <td><input ng-model="hours" type="text"></td>
+        </tr>
+        <tr>
+            <td>Type N</td>
+            <td><input ng-model="type" type="checkbox"></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><textarea ng-model="desc" ></textarea></td>
+        </tr>
+        <tr>
+            <td>Note</td>
+            <td><input ng-model="note"></td>
+        </tr>
+         <tr>
+            <td>Place</td>
+            <td><input ng-model="place"></td>
+        </tr>
+    </table>
+</div>
