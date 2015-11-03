@@ -179,7 +179,15 @@ aside div:hover{
     background-color: #FCBB2D;
 }
 
-#activityFrame{
+.partial{
     display:inline-block;
-    width:66%;
+    width:70%;
+}
+
+.activityOutput{
+    border: 1px solid black;
+}
+
+.activityOutput td {
+    border: 1px solid black;
 }

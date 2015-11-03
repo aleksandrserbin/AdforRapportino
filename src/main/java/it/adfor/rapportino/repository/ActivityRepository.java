@@ -11,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(exported=false)
 public interface ActivityRepository extends CrudRepository<Activity, Integer>{
     Collection<Activity> findByEmplId(Integer id);
-    Optional<Activity> findByProjId(Integer id);
-    Optional<Activity> findByTypeId(Integer id);
-    Optional<Activity> findByDateBetween(Date beg, Date end);
+    Collection<Activity> findByProjId(Integer id);
+    Collection<Activity> findByTypeId(Integer id);
+    Collection<Activity> findByDateBetweenAndEmplId(Date beg, Date end, Integer id);
 }

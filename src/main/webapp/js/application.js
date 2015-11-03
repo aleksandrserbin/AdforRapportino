@@ -1,4 +1,4 @@
-var module = angular.module('Rapportino', ['ngResource',  'ngStorage','ui.router']);
+var module = angular.module('Rapportino', ['ngResource','ngStorage','ui.router']);
 
 module.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/act');
@@ -17,8 +17,16 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         templateUrl: "act.html",
         controller: "ActivityController"
     }).state("/act.fill",{
-        url:"/act/fill",
+        url:"/fill",
         templateUrl: "act-fill.html",
+        controller: "ActivityController"
+    }).state("/act.watch",{
+        url:"/watch",
+        templateUrl: "act-watch.html",
+        controller: "ActivityController"
+    }).state("/act.watchs",{
+        url:"/summary",
+        templateUrl: "act-watchs.html",
         controller: "ActivityController"
     });
 });
@@ -76,7 +84,7 @@ module.controller('ErrorController', function($scope, $localStorage, $state, $ht
         }).then(function successCallback(response){
             
             $scope.errmsg = response.data.msg;
-            
+            $localStorage.err=null;
         }, function errCallback(response){
             console.log(response);
         });

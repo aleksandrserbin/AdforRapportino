@@ -8,7 +8,10 @@ package it.adfor.rapportino.controller;
 import it.adfor.rapportino.model.Activity;
 import it.adfor.rapportino.model.Project;
 import it.adfor.rapportino.repository.ActivityRepository;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,21 +29,39 @@ public class ActivityController {
 
     @Autowired
     ActivityRepository activityRepository;
+    
     @RequestMapping(method=RequestMethod.GET)
     Collection<Activity> getActivities(@PathVariable Integer userid) {
         return activityRepository.findByEmplId(userid);
     }
-
+    
+    @RequestMapping(method=RequestMethod.GET, value="{s}_{e}")
+    Collection<Activity> getActivities(@PathVariable("s") String ss, @PathVariable("e") String se, @PathVariable("userid") Integer id) {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+             Date s = formatter.parse(ss);
+             Date e = formatter.parse(se);
+             return activityRepository.findByDateBetweenAndEmplId(s, e, id);
+        } catch (Exception ex){
+            return null;
+        }
+       
+        
+    }
+    
+    
     @RequestMapping(method=RequestMethod.POST)
     public void addActivity(@Valid @RequestBody Activity a) {
         System.out.println("IM IN ADDACTIVITY");
-        System.out.println(a.getDate());
-        System.out.println(a.getHours());
-        System.out.println(a.getEmpl().getId());
+        System.out.println(a.getDescription());
+        System.out.println(a.getNote());
+        System.out.println(a.getPlace());
 //        Project p = new Project();
 //        p.setId(pid);
 //        a.setProj(p);
         activityRepository.save(a);
     }
+    
+   
 
 }

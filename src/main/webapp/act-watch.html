@@ -1,0 +1,22 @@
+<p>You can select dates, between which you want to get data</p>
+<form>
+    <input ng-model="start" type="date">
+    <input ng-model="end" type="date">
+    <button ng-click="applyDates()">Apply</button>
+</form>
+<table  class="activityOutput">
+    <tr>
+        <td ng-click="reorder('name')" style="background-color:#FCBB2D">Project name</td>
+        <td ng-click="reorder('type')" style="background-color:#FCBB2D">Type</td>
+        <td ng-click="reorder('date')" style="background-color:#FCBB2D">Date</td>
+        <td ng-click="reorder('hours')" style="background-color:#FCBB2D">Hours</td>
+        <td ng-click="reorder('hours')" style="background-color:#FCBB2D">Description</td>
+    </tr>
+    <tr ng-repeat="a in activities | orderBy:predicate:reverse ">
+        <td>{{a.proj.name}}</td>
+        <td>{{a.type}}</td>
+        <td>{{a.date}}</td>
+        <td>{{a.hours}}</td>
+        <td>{{a.description}}</td>
+    </tr> 
+</table>
