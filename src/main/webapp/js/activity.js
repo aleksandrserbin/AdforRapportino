@@ -2,6 +2,9 @@ module.factory('Activity', function ($resource) {
     return $resource(":userid/a", {userid: '@userid'});
 })
         .controller('ActivityController', function ($scope, Activity, $localStorage, $state, $http) {
+            
+            
+            
             var url = function () {
                 return {userid: $localStorage.userid};
             }
@@ -19,6 +22,7 @@ module.factory('Activity', function ($resource) {
             $scope.update = update;
 
             $scope.add = function addActivity() {
+                alert($scope.type);
                 if ($localStorage.rights < 1) {
                     alert("you have no access to writing information\n Contact your administator");
                     return;
@@ -31,15 +35,17 @@ module.factory('Activity', function ($resource) {
                 a.note = $scope.note;
                 a.place = $scope.place;
                 a.description = $scope.desc;
-                alert($scope.desc);
+                if ($scope.type) a.typeId = 5; else a. typeId = 6;
                 a.$save(url(), update());
                 update();
             }
             
             $scope.applyDates = function(){
                 console.log($scope.start.getDate());
-                var s = $scope.start.getFullYear()+"-"+$scope.start.getMonth()+"-"+$scope.start.getDate();
-                var e = $scope.end.getFullYear()+"-"+$scope.end.getMonth()+"-"+$scope.end.getDate();
+                var  m = $scope.start.getMonth()+1;
+                var s = $scope.start.getFullYear()+"-"+m+"-"+$scope.start.getDate();
+                m = $scope.end.getMonth()+1;
+                var e = $scope.end.getFullYear()+"-"+m+"-"+$scope.end.getDate();
                 
                 $http.get($localStorage.userid+"/a/"+s+"_"+e
                         ).then(function successCallback(response){
@@ -64,11 +70,52 @@ module.factory('Activity', function ($resource) {
 
             $scope.delete = function(id){
                 $http.delete($localStorage.userid+"/a/"+id).success(function(){
-                    alert("deleted");
+                    
                     update();
                 });
             }
+            
+            $scope.edit = function(a){
+                var mwin = document.getElementsByClassName("module-win")[0];
+                mwin.style.display="inline-block";
+                $scope.projid = a.proj.id;
+                $scope.hours = a.hours;
+                if (a.typeId==5) $scope.type = true; else $scope.type=false;
+                $scope.desc = a.description;
+                $scope.note = a.note;
+                $scope.place = a.place;
+                $scope.act_id = a.id;
+                $scope.date = new Date(a.date);
+            }
+            
+            $scope.save = function(){
+                var a = new Activity();
+                a.id = $scope.act_id;
+                a.empl = {"id": $localStorage.userid};
+                a.proj = {"id": $scope.projid};
+                a.hours = $scope.hours;
+                a.date = $scope.date;
+                a.note = $scope.note;
+                a.place = $scope.place;
+                if ($scope.type) a.typeId = 5; else a. typeId = 6;
+                a.description = $scope.desc;
+                $http.put($localStorage.userid+'/a',a).then(
+                        function successCallback(){
+                            hide();
+                            update();
+                            
+                        }, function errorCallback(){
+                            alert("error occured");
+                        });
+                
+            }
+            
             update();
-
-            $scope.ac_win_show = false;
+            
+            function hide(){
+                document.getElementsByClassName("module-win")[0].style.display="none";
+            }
+            
+            $scope.hide = hide;
+            
         })

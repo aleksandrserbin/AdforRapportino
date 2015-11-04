@@ -11,19 +11,23 @@
         <td ng-click="reorder('date')" style="background-color:#FCBB2D">Date</td>
         <td ng-click="reorder('hours')" style="background-color:#FCBB2D">Hours</td>
         <td ng-click="reorder('hours')" style="background-color:#FCBB2D">Description</td>
+        <td style="background-color:#FCBB2D"></td>
+        <td style="background-color:#FCBB2D"></td>
     </tr>
     <tr ng-repeat="a in activities | orderBy:predicate:reverse ">
         <td style="display:none">{{a.id}}</td>
         <td>{{a.proj.name}}</td>
-        <td>{{a.type}}</td>
+        <td>{{a.typeId}}</td>
         <td>{{a.date}}</td>
         <td>{{a.hours}}</td>
         <td>{{a.description}}</td>
+        <td ng-click="edit(a)"><img src="res/edit.gif"></td>
         <td ng-click="delete(a.id)"><img src="res/delete.gif"></td>
         
     </tr> 
 </table>
 <div class="module-win">
+    
     <table>
         <tr>
             <td> Project Id</td>
@@ -54,4 +58,7 @@
             <td><input ng-model="place"></td>
         </tr>
     </table>
+    
+    <button ng-click="save()">Save</button>
+    <button ng-click="hide()">Close</button>
 </div>

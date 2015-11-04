@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package it.adfor.rapportino.controller;
 
 import it.adfor.rapportino.model.Activity;
@@ -55,6 +51,11 @@ public class ActivityController {
     @RequestMapping(value="{a_id}",method = RequestMethod.DELETE)
     public void deleteActivity(@PathVariable("a_id") Integer id) {
         activityRepository.delete(id);
+    }
+    
+    @RequestMapping(method=RequestMethod.PUT)
+    public void updateActivity(@RequestBody Activity a){
+        activityRepository.save(a);
     }
 
 }
