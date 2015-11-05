@@ -28,6 +28,14 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         url:"/summary",
         templateUrl: "act-watchs.html",
         controller: "ActivityController"
+    }).state("/act.manp",{
+        url:"/managed",
+        templateUrl: "act-managed.html",
+        controller: "ActivityController"
+    }).state("/act.projectinfo",{
+        url:"/info",
+        templateUrl: "proj-info.html",
+        controller: "ActivityController"
     });
 });
 
@@ -69,6 +77,7 @@ module.controller('UserController', function ($scope,  $http, $state, $localStor
     $scope.logout = function logout(){
         $localStorage.rights=null;
         $localStorage.userid=null;
+        $localStorage.$reset();
         $state.go("/");
     }
 })

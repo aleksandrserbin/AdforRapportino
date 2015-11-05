@@ -1,10 +1,12 @@
 <div class="partial">
-    
+
     Add Activity:<br>
     <table>
         <tr>
-            <td> Project Id </td>
-            <td><input ng-model="projid" type="date">
+            <td> Project Id</td>
+            <td><select  style="width:80%;" ng-model="projid"> 
+                    <option ng-repeat="p in projects">{{p.id}} - {{p.name}}</option>
+                </select>
             </td>
         </tr>
         <tr>
@@ -21,13 +23,13 @@
         </tr>
         <tr>
             <td>Description</td>
-            <td><textarea ng-model="desc" ></textarea></td>
+            <td><textarea style="max-width: 100%;width: 100%;resize:vertical;" ng-model="desc" ></textarea></td>
         </tr>
         <tr>
             <td>Note</td>
             <td><input ng-model="note"></td>
         </tr>
-         <tr>
+        <tr>
             <td>Place</td>
             <td><input ng-model="place"></td>
         </tr>

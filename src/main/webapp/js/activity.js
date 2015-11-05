@@ -3,14 +3,12 @@ module.factory('Activity', function ($resource) {
 })
         .controller('ActivityController', function ($scope, Activity, $localStorage, $state, $http) {
             
-            
-            
+           
             var url = function () {
                 return {userid: $localStorage.userid};
             }
 
             var update = function () {
-                console.log(url());
                 if ($localStorage.userid == null || $localStorage.userid == undefined)
                 {
                     $state.go("/err");
@@ -22,14 +20,13 @@ module.factory('Activity', function ($resource) {
             $scope.update = update;
 
             $scope.add = function addActivity() {
-                alert($scope.type);
                 if ($localStorage.rights < 1) {
                     alert("you have no access to writing information\n Contact your administator");
                     return;
                 }
                 var a = new Activity();
                 a.empl = {"id": $localStorage.userid};
-                a.proj = {"id": $scope.projid};
+                a.proj = {"id": $scope.projid.split(" - ")[0]};
                 a.hours = $scope.hours;
                 a.date = $scope.date;
                 a.note = $scope.note;
@@ -117,5 +114,47 @@ module.factory('Activity', function ($resource) {
             }
             
             $scope.hide = hide;
+            
+            $http.get("/p/all").success(function(response){
+                if ($localStorage.projects==undefined){
+                    $localStorage.projects = response;
+                    
+                }
+                $scope.projects = $localStorage.projects;
+            });
+            
+            $scope.loadManaged = function loadManaged(id){
+                $http.get("/p/"+$localStorage.userid).success(
+                        function (response) {
+                            $scope.mngproj = response;
+                        }
+                        );
+            }
+            
+            $scope.info = info;
+            function info(id){
+                $http.get("p/info/"+id).success(function(response){
+                    var map =  new Map();
+                    for (var i =0;i<response.length;i++){
+                        if (map.has(response[i].empl)){
+                            var h = map.get(response[i].empl);
+                            alert("h = "+h);
+                            map.set(response[i].empl,h+response[i].hours);
+                        } else {
+                            map.set(response[i].empl,response[i].hours)
+                        }
+                    }
+                    var obj = [];
+                    map.forEach(function(value,key){
+                        var temp =  new Object();
+                        temp.key = key;
+                        temp.value=value;
+                        obj.push(temp);
+                    });
+                    $scope.projectActivities = obj; 
+                    console.log($scope.projectActivities);
+                    $state.go("/act.projectinfo");
+                });
+            }
             
         })

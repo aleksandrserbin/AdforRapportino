@@ -1,0 +1,16 @@
+<table data-ng-init="loadManaged($localStorage.userid)">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Client</td>
+        <td>Division</td>
+        <td>Info</td>
+    </tr>
+    <tr ng-repeat="p in mngproj">
+        <td>{{p.id}}</td>
+        <td>{{p.name}}</td>
+        <td>{{p.client.name}}</td>
+        <td>{{p.division}}</td>
+        <td ng-click="info(p.id)"><img src="res/edit.gif"></td>
+    </tr>
+</table>

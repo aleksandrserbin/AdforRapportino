@@ -1,5 +1,5 @@
 <div ng-model="activityWindow" ng-controller="ActivityController">
-    <aside>
+    <nav>
         <div >
             <a ui-sref=".fill"> Fill Timesheet</a>
         </div>
@@ -10,12 +10,12 @@
             <a ui-sref=".watchs">Watch Data Summary</a>
         </div>
         <div>
-            <a>Managed Projects</a>
+            <a ui-sref=".manp">Managed Projects</a>
         </div>
         <div>
             <a>Personal Settings</a>
         </div>
-    </aside>
+    </nav>
     <script src="js/activity.js"></script>
     <div ui-view class="partial">
 

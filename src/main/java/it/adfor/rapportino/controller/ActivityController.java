@@ -57,5 +57,7 @@ public class ActivityController {
     public void updateActivity(@RequestBody Activity a){
         activityRepository.save(a);
     }
+    
+    
 
 }

@@ -1,0 +1,29 @@
+<!--<table>
+    <tr>
+        <td>Name</td>
+        <td>{{activities[0].proj.name}}</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>{{activities[0].proj.id}}</td>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td>{{activities[0].proj.name}}</td>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td>{{activities[0].proj.name}}</td>
+    </tr>
+</table> -->
+<table>
+    <tr>
+        <td> Employee </td>
+        <td> Hours</td>
+    </tr>
+    <tr ng-repeat="e in projectActivities">
+        <td>{{e.key.name}} {{e.key.sname}}</td>
+        <td>{{e}}</td>
+    </tr>
+</table>
+
