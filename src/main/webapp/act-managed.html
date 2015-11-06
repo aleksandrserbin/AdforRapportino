@@ -1,16 +1,17 @@
-<table data-ng-init="loadManaged($localStorage.userid)">
+
+<table data-ng-init="loadManaged($localStorage.userid)" class="activityOutput">
     <tr>
-        <td>Id</td>
-        <td>Name</td>
-        <td>Client</td>
-        <td>Division</td>
-        <td>Info</td>
+        <td style="background-color:#FCBB2D">Id</td>
+        <td style="background-color:#FCBB2D">Name</td>
+        <td style="background-color:#FCBB2D">Client</td>
+        <td style="background-color:#FCBB2D">Division</td>
+        <td style="background-color:#FCBB2D">Info</td>
     </tr>
     <tr ng-repeat="p in mngproj">
         <td>{{p.id}}</td>
         <td>{{p.name}}</td>
         <td>{{p.client.name}}</td>
-        <td>{{p.division}}</td>
-        <td ng-click="info(p.id)"><img src="res/edit.gif"></td>
+        <td>{{p.division.name}}</td>
+        <td ng-click="setpid(p.id)"><img src="res/edit.gif"></td>
     </tr>
 </table>

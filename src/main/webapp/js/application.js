@@ -25,8 +25,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         templateUrl: "act-watch.html",
         controller: "ActivityController"
     }).state("/act.watchs",{
-        url:"/summary",
-        templateUrl: "act-watchs.html",
+        url:"/mysummary",
+        templateUrl: "act-watch-summary.html",
         controller: "ActivityController"
     }).state("/act.manp",{
         url:"/managed",
@@ -36,6 +36,10 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         url:"/info",
         templateUrl: "proj-info.html",
         controller: "ActivityController"
+    }).state("/act.personal",{
+        url:"/personal",
+        templateUrl: "act-personal.html",
+        controller: "StaffController"
     });
 });
 

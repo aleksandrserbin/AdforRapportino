@@ -27,7 +27,7 @@ public class User {
     private String username;
     @JsonIgnore
     private String password;
-    private Integer staff_id;
+    private Integer staffId;
     private short scope;
 
     public short getScope() {
@@ -38,12 +38,12 @@ public class User {
         this.scope = scope;
     }
     
-    public void setStaff_id(Integer staff_id) {
-        this.staff_id = staff_id;
+    public void setStaffId(Integer staff_id) {
+        this.staffId = staff_id;
     }
 
-    public Integer getStaff_id() {
-        return staff_id;
+    public Integer getStaffId() {
+        return staffId;
     }
 
     public User() {

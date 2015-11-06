@@ -9,6 +9,7 @@ import it.adfor.rapportino.AppConfig;
 import it.adfor.rapportino.dao.UserDao;
 import it.adfor.rapportino.dao.UserDaoImpl;
 import it.adfor.rapportino.model.Activity;
+import it.adfor.rapportino.model.Staff;
 import it.adfor.rapportino.model.User;
 import it.adfor.rapportino.repository.UserRepository;
 import java.util.Collection;
@@ -22,10 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author alex
- */
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -35,20 +32,22 @@ public class UserController {
     
     @RequestMapping(method=RequestMethod.GET)
     User checkUser(HttpServletRequest req) {
-     
         String u = req.getParameter("username");
         String p = req.getParameter("password");
         AnnotationConfigApplicationContext ctx =  new AnnotationConfigApplicationContext(AppConfig.class);
-        //ctx.refresh();
         UserDao udao =  ctx.getBean("userDao", UserDao.class);
         if (udao.checkIfExists(u, p))
         return userRepository.findByUsername(u);
         else 
             System.out.println("heh mda");
         return null;
-        
     }
     
+    @RequestMapping(value="{id}",method=RequestMethod.GET)
+    User getUser(@PathVariable Integer id) {
+        return userRepository.findByStaffId(id);
+    }
+   
     
     
 }

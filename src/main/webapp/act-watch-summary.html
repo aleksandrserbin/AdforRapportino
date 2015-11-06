@@ -1,0 +1,18 @@
+<p>You can select dates, between which you want to get data</p>
+<form >
+    <input ng-model="start" type="date">
+    <input ng-model="end" type="date">
+    <button ng-click="applyDatesAndSummary();">Apply</button>
+</form>
+<table ng-init="summary()" class="activityOutput">
+    <tr>
+        <td style="background-color:#FCBB2D">Project</td>
+        <td style="background-color:#FCBB2D">Payable Hours</td>
+        <td style="background-color:#FCBB2D">N Hours</td>
+    </tr>
+    <tr  ng-repeat="a in activities" >
+        <td>{{a.key}}</td>
+        <td>{{a.value.hours}}</td>
+        <td>{{a.value.nhours}}</td>
+    </tr>
+</table>

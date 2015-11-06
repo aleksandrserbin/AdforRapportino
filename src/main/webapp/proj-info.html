@@ -16,14 +16,16 @@
         <td>{{activities[0].proj.name}}</td>
     </tr>
 </table> -->
-<table>
+<table class="activityOutput" ng-init="info()">
     <tr>
-        <td> Employee </td>
-        <td> Hours</td>
+        <td style="background-color:#FCBB2D"> Employee </td>
+        <td style="background-color:#FCBB2D"> Payable Hours</td>
+        <td style="background-color:#FCBB2D"> N Hours</td>
     </tr>
-    <tr ng-repeat="e in projectActivities">
-        <td>{{e.key.name}} {{e.key.sname}}</td>
-        <td>{{e}}</td>
+    <tr ng-repeat="p in activities">
+        <td>{{p.value.name}}</td>
+        <td>{{p.value.hours}}</td>
+        <td>{{p.value.nhours}}</td>
     </tr>
 </table>
 

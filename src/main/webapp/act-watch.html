@@ -1,16 +1,16 @@
 <p>You can select dates, between which you want to get data</p>
-<form>
+<form >
     <input ng-model="start" type="date">
     <input ng-model="end" type="date">
     <button ng-click="applyDates()">Apply</button>
 </form>
-<table  class="activityOutput">
+<table  class="activityOutput" ng-init="update()">
     <tr>
-        <td ng-click="reorder('name')" style="background-color:#FCBB2D">Project name</td>
-        <td ng-click="reorder('type')" style="background-color:#FCBB2D">Type</td>
+        <td ng-click="reorder('proj.name')" style="background-color:#FCBB2D">Project name</td>
+        <td ng-click="reorder('typeId')" style="background-color:#FCBB2D">Type</td>
         <td ng-click="reorder('date')" style="background-color:#FCBB2D">Date</td>
         <td ng-click="reorder('hours')" style="background-color:#FCBB2D">Hours</td>
-        <td ng-click="reorder('hours')" style="background-color:#FCBB2D">Description</td>
+        <td ng-click="reorder('description')" style="background-color:#FCBB2D">Description</td>
         <td style="background-color:#FCBB2D"></td>
         <td style="background-color:#FCBB2D"></td>
     </tr>
