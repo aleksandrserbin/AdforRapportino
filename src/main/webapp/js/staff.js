@@ -24,6 +24,7 @@ module.controller('StaffController', function($http, $scope, $localStorage){
    $scope.save = function(){
        if ($scope.pass == $scope.cpass) {
            var s = new Object();
+           s.id = $localStorage.userid;
            s.name = $scope.name;
            s.sname = $scope.sname;
            s.fiscal=$scope.fiscal;

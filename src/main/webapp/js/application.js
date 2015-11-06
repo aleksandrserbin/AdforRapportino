@@ -61,6 +61,7 @@ module.controller('UserController', function ($scope,  $http, $state, $localStor
         }).then(function successCallback(response) {
             $scope.userid = response.data.staffId;
             $scope.rights = response.data.scope;
+            console.log(response);
             $scope.$storage = $localStorage;
             $localStorage.userid=$scope.userid;
             $localStorage.rights = $scope.rights; 
