@@ -45,7 +45,15 @@ public class ActivityController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void addActivity(@Valid @RequestBody Activity a) {
+        System.out.println(a.getDate());
         activityRepository.save(a);
+    }
+    
+    @RequestMapping(value="a",method = RequestMethod.POST)
+    public void addActivities(@Valid @RequestBody Activity[] acts) {
+        for (Activity a :acts){
+            activityRepository.save(a);
+        }
     }
 
     @RequestMapping(value="{a_id}",method = RequestMethod.DELETE)

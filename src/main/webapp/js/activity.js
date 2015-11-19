@@ -3,18 +3,28 @@ module.factory('Activity', function ($resource) {
 })
         .controller('ActivityController', function ($scope, Activity, $localStorage, $state, $http, $rootScope) {
 
+            init();
+            function init() {
+                if ($localStorage.userid == null || $localStorage.userid == undefined)
+                {
+                    $state.go("/err");
+                    $localStorage.err = 1;
+                }
+                $scope.show = new Object();
+                $scope.show.show = false;
+                $scope.show.style = {};
+                $scope.show.errorStyle = {'background-color': 'red', 'padding': '5px'}
+                $scope.show.successStyle = {'background-color': 'green', 'padding': '5px'}
+                $scope.show.loading = false;
+            }
+
 
             var url = function () {
                 return {userid: $localStorage.userid};
             }
 
             var update = function () {
-                alert("update");
-                if ($localStorage.userid == null || $localStorage.userid == undefined)
-                {
-                    $state.go("/err");
-                    $localStorage.err = 1;
-                }
+
                 $scope.activities = Activity.query(url());
                 $scope.projectActivities = $localStorage.projectActivities;
             }
@@ -26,11 +36,11 @@ module.factory('Activity', function ($resource) {
                     alert("you have no access to writing information\n Contact your administator");
                     return;
                 }
+
                 var a = new Activity();
                 a.empl = {"id": $localStorage.userid};
                 a.proj = {"id": $scope.projid.split(" - ")[0]};
                 a.hours = $scope.hours;
-                a.date = $scope.date;
                 a.note = $scope.note;
                 a.place = $scope.place;
                 a.description = $scope.desc;
@@ -38,7 +48,44 @@ module.factory('Activity', function ($resource) {
                     a.typeId = 5;
                 else
                     a.typeId = 6;
-                a.$save(url(), update());
+                if ($scope.fillseveraldates) {
+                    var bdate = new Date($scope.fromDate);
+                    var edate = new Date($scope.toDate);
+                    var acts = [];
+                    for (; bdate <= edate; bdate.setDate(bdate.getDate()+1)) {
+                        if (bdate.getDay() > 4) continue;
+                        //this piece sucks
+                        var d = new Date(bdate.getTime());
+                        a.date = d;
+                        var a1 = new Activity();
+                        a1.empl = a.empl;
+                        a1.proj = a.proj;
+                        a1.hours = a.hours;
+                        a1.note = a.note;
+                        a1.place = a.place;
+                        a1.description = a.description;
+                        a1.typeId = a.typeId;
+                        a1.date = d;
+                        a1.$save(url());
+                    }
+                    
+                    
+                } else {
+                    var date = new Date($scope.date);
+                    if (date.getDay() > 4) {
+                        $scope.show.message = "You have selected a day off";
+                        $scope.show.style = $scope.show.errorStyle;
+                        $scope.show.show = true;
+                        return;
+                    } else {
+                        a.date = $scope.date;
+                        a.$save(url(), update());
+                    }
+
+                }
+                $scope.show.message = "Data has been added successfully";
+                $scope.show.style = $scope.show.successStyle;
+                $scope.show.show = true;
                 update();
             }
 
@@ -76,15 +123,15 @@ module.factory('Activity', function ($resource) {
                         var elem = $scope.activities[i];
                         if (m.has(elem.proj.name)) {
                             var value = m.get(elem.proj.name);
-                            if (elem.typeId==5){
-                                value.nhours+=elem.hours;
+                            if (elem.typeId == 5) {
+                                value.nhours += elem.hours;
                             } else {
-                                value.hours+=elem.hours;
+                                value.hours += elem.hours;
                             }
                             m.set(elem.proj.name, value);
                         } else {
-                            var value =  new Object();
-                            if (elem.typeId==5) {
+                            var value = new Object();
+                            if (elem.typeId == 5) {
                                 value.nhours = elem.hours;
                                 value.hours = 0;
                             } else {
@@ -109,7 +156,7 @@ module.factory('Activity', function ($resource) {
                     alert($localStorage.userid + "/a/" +
                             s + "_" + e);
                 });
-                
+
             }
 
             $scope.predicate = 'date';
@@ -168,21 +215,29 @@ module.factory('Activity', function ($resource) {
 
             }
 
-            //update();
+            
 
             function hide() {
                 document.getElementsByClassName("module-win")[0].style.display = "none";
             }
 
             $scope.hide = hide;
-
-            $http.get("/p/all").success(function (response) {
-                if ($localStorage.projects == undefined) {
+            
+            
+            $scope.projects = $localStorage.projects;
+            loadProjects = function(){
+                $scope.show.loading = true;
+                $http.get("/p/all").success(function (response) {
                     $localStorage.projects = response;
-
-                }
-                $scope.projects = $localStorage.projects;
-            });
+                });
+                $scope.show.loading = false;
+            }
+            if ($localStorage.projects == undefined) {
+                loadProjects();
+                
+            }
+            $scope.loadProjects = loadProjects;
+            
 
             $scope.loadManaged = function loadManaged(id) {
                 $http.get("/p/" + $localStorage.userid).success(
@@ -241,15 +296,15 @@ module.factory('Activity', function ($resource) {
                         var elem = $scope.activities[i];
                         if (m.has(elem.proj.name)) {
                             var value = m.get(elem.proj.name);
-                            if (elem.typeId==5){
-                                value.nhours+=elem.hours;
+                            if (elem.typeId == 5) {
+                                value.nhours += elem.hours;
                             } else {
-                                value.hours+=elem.hours;
+                                value.hours += elem.hours;
                             }
                             m.set(elem.proj.name, value);
                         } else {
-                            var value =  new Object();
-                            if (elem.typeId==5) {
+                            var value = new Object();
+                            if (elem.typeId == 5) {
                                 value.nhours = elem.hours;
                                 value.hours = 0;
                             } else {
