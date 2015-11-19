@@ -53,7 +53,7 @@ module.factory('Activity', function ($resource) {
                     var edate = new Date($scope.toDate);
                     var acts = [];
                     for (; bdate <= edate; bdate.setDate(bdate.getDate()+1)) {
-                        if (bdate.getDay() > 4) continue;
+                        if (bdate.getDay() == 6 || bdate.getDay() == 0) continue;
                         //this piece sucks
                         var d = new Date(bdate.getTime());
                         a.date = d;
@@ -72,12 +72,14 @@ module.factory('Activity', function ($resource) {
                     
                 } else {
                     var date = new Date($scope.date);
-                    if (date.getDay() > 4) {
+                    if (date.getDay() == 6 || date.getDay() == 0) {
+                        alert("fail");
                         $scope.show.message = "You have selected a day off";
                         $scope.show.style = $scope.show.errorStyle;
                         $scope.show.show = true;
                         return;
                     } else {
+                        alert("suc");
                         a.date = $scope.date;
                         a.$save(url(), update());
                     }

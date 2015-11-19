@@ -1,7 +1,8 @@
-var module = angular.module('Rapportino', ['ngResource','ngStorage','ui.router']);
+var module = angular.module('Rapportino', ['ngResource',
+    'ngStorage','ui.router','angularUtils.directives.dirPagination']);
 
 module.config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/act');
+    $urlRouterProvider.otherwise('/');
     $stateProvider.state("/", {
         url:"/",
         templateUrl: "login.html",

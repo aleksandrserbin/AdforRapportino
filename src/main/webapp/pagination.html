@@ -1,0 +1,14 @@
+<ul class="pagination" ng-if="1 < pages.length">
+    <div ng-click="setCurrent(1)" ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">
+        &laquo;
+    </div>
+    
+    <div ng-repeat="pageNumber in pages track by $index" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }" ng-click="setCurrent(pageNumber)">
+        {{ pageNumber }}
+    </div>
+
+    
+    <div ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }"ng-click="setCurrent(pagination.last)">
+        &raquo;
+    </div>
+</ul>

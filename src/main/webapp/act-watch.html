@@ -1,4 +1,5 @@
 <p>You can select dates, between which you want to get data</p>
+
 <form >
     <input ng-model="start" type="date">
     <input ng-model="end" type="date">
@@ -14,7 +15,7 @@
         <td style="background-color:#FCBB2D"></td>
         <td style="background-color:#FCBB2D"></td>
     </tr>
-    <tr ng-repeat="a in activities | orderBy:predicate:reverse ">
+    <tr dir-paginate="a in activities | orderBy:predicate:reverse | itemsPerPage:50 ">
         <td style="display:none">{{a.id}}</td>
         <td>{{a.proj.name}}</td>
         <td>{{a.typeId}}</td>
@@ -26,6 +27,7 @@
         
     </tr> 
 </table>
+<dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="pagination.html"></dir-pagination-controls>
 <div class="module-win">
     
     <table>

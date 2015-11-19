@@ -182,10 +182,11 @@ nav div:hover{
 .partial{
     margin: 10px 20px;
     display:inline-block;
-    width:70%;
+    width:95%;
 }
 
 .activityOutput{
+    width: 90%;
     border: 1px solid black;
     margin-bottom: 20px;
     margin-left: 5px;
@@ -200,10 +201,41 @@ nav div:hover{
     background-color: white;
     border: 2px solid black;
     display:none;
-    position: relative;
+    position: fixed;
     z-index: 10;
     top: 20%;
     left: 30%;
     width: 48%;
     padding:10px;
+}
+
+
+/* Pagination styles*/
+.pagination {
+    text-align: center;
+   
+}
+.pagination div {
+    list-style-type: none;
+    display:inline-block;
+    text-align: center;
+    padding: 7px;
+    text-decoration: none;
+    border: 1px solid #E3A828;
+    margin:1px;
+}
+
+
+.pagination div:hover{
+    background-color: #E3A828;
+}
+
+
+#loadscreen {
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background-color: rgba(206,206,206,0.5);
+    position: fixed;
 }

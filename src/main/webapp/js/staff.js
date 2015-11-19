@@ -12,7 +12,6 @@ module.controller('StaffController', function ($http, $scope, $localStorage) {
     $scope.pull = function () {
         $http.get("/staff/" + $localStorage.userid).success(
                 function (response) {
-                    console.log(response);
                     var staff = response;
                     $scope.name = staff.name;
                     $scope.sname = staff.sname;
@@ -22,7 +21,6 @@ module.controller('StaffController', function ($http, $scope, $localStorage) {
 
         $http.get("/users/" + $localStorage.userid).success(function (response) {
             var user = response;
-            console.log(response);
             $scope.login = user.username;
         });
     }
