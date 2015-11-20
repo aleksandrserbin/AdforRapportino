@@ -34,6 +34,16 @@ public class UserDaoImpl extends AbstractDao<Activity> implements UserDao{
         
     }
 
+    @Override
+    public User getByUsername(String username) {
+        System.out.println(username);
+        HibernateTemplate ht = getHibernateTemplate();
+        SessionFactory sf = ht.getSessionFactory();
+        Session s = sf.openSession();
+        return (User) s.createCriteria(User.class)
+                .add(Restrictions.eq("username", username)).uniqueResult();
+    }
+
 
    
     

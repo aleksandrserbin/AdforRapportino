@@ -12,10 +12,14 @@ import it.adfor.rapportino.model.Activity;
 import it.adfor.rapportino.model.Staff;
 import it.adfor.rapportino.model.User;
 import it.adfor.rapportino.repository.UserRepository;
+import it.adfor.rapportino.security.CurrentUserDetails;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,5 +59,11 @@ public class UserController {
         userRepository.save(u);
     }
     
+    @RequestMapping(value = "cur", method = RequestMethod.GET)
+    public UserDetails getCurrentUser(HttpServletResponse r) throws Exception{
+        Object o  =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (o instanceof UserDetails) return (CurrentUserDetails) o;
+        throw new Exception("UNAUTHORIZED");
+    }
     
 }

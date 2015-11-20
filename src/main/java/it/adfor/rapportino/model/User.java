@@ -28,13 +28,13 @@ public class User {
     @JsonIgnore
     private String password;
     private Integer staffId;
-    private short scope;
+    private String scope;
 
-    public short getScope() {
+    public String getScope() {
         return scope;
     }
 
-    public void setScope(short scope) {
+    public void setScope(String scope) {
         this.scope = scope;
     }
     

@@ -5,6 +5,9 @@
  */
 package it.adfor.rapportino.dao;
 
+import it.adfor.rapportino.model.User;
+
 public interface UserDao {
     public boolean checkIfExists(String username, String pass);
+    public User getByUsername(String username);
 }
