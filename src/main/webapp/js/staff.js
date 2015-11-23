@@ -1,4 +1,4 @@
-module.controller('StaffController', function ($http, $scope, $localStorage) {
+module.controller('StaffController', function ($http, $scope, $localStorage, $rootScope) {
     init();
     
     function init() {
@@ -10,7 +10,7 @@ module.controller('StaffController', function ($http, $scope, $localStorage) {
     }
     
     $scope.pull = function () {
-        $http.get("/staff/" + $localStorage.userid).success(
+        $http.get("/staff/" + $rootScope.user.staffId).success(
                 function (response) {
                     var staff = response;
                     $scope.name = staff.name;
@@ -19,7 +19,7 @@ module.controller('StaffController', function ($http, $scope, $localStorage) {
                 }
         );
 
-        $http.get("/users/" + $localStorage.userid).success(function (response) {
+        $http.get("/users/" + $rootScope.user.staffId).success(function (response) {
             var user = response;
             $scope.login = user.username;
         });
@@ -30,7 +30,7 @@ module.controller('StaffController', function ($http, $scope, $localStorage) {
     $scope.save = function () {
         if ($scope.pass == $scope.cpass) {
             var s = new Object();
-            s.id = $localStorage.userid;
+            s.id = $rootScope.user.staffId;
             s.name = $scope.name;
             s.sname = $scope.sname;
             s.fiscal = $scope.fiscal;
@@ -39,9 +39,6 @@ module.controller('StaffController', function ($http, $scope, $localStorage) {
             if ($scope.pass != null && $scope.pass != undefined && $scope.pass != "") {
                 var u = new Object();
                 u.username = $scope.login;
-                u.scope = $localStorage.rights;
-                u.staffId = $localStorage.userid;
-                //$http.put("/users",u,{});
                 $http({
                     method: 'PUT',
                     url: '/users',
@@ -68,7 +65,7 @@ module.controller('StaffController', function ($http, $scope, $localStorage) {
     }
 
     $scope.loadCompanies = function () {
-        $http.get("/companies").success(function (response) {
+        $http.get("api/companies").success(function (response) {
             $scope.companies = response;
         });
     }

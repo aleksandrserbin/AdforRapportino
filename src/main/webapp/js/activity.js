@@ -1,11 +1,11 @@
 module.factory('Activity', function ($resource) {
-    return $resource(":userid/a", {userid: '@userid'});
+    return $resource("api/activities/:userid", {userid: '@userid'});
 })
-        .controller('ActivityController', function ($scope, Activity, $localStorage, $state, $http, $rootScope) {
+        .controller('ActivityController', function ($scope, Activity, $localStorage, $state, $http, $rootScope, $filter) {
 
             init();
             function init() {
-                if ($localStorage.userid == null || $localStorage.userid == undefined)
+                if ($rootScope.authorized == null || $rootScope.authorized == undefined)
                 {
                     $state.go("/err");
                     $localStorage.err = 1;
@@ -13,14 +13,15 @@ module.factory('Activity', function ($resource) {
                 $scope.show = new Object();
                 $scope.show.show = false;
                 $scope.show.style = {};
-                $scope.show.errorStyle = {'background-color': 'red', 'padding': '5px'}
-                $scope.show.successStyle = {'background-color': 'green', 'padding': '5px'}
+                $scope.show.errorStyle = {'background-color': '#FF8080', 'padding': '5px', "border": "2px solid red", "text-align":"center"};
+                $scope.show.successStyle = {'background-color': '#81E383', 'padding': '5px',"border": "2px solid green", "text-align":"center"};
+                $scope.show.warningStyle = {'background-color': 'yellow', 'padding': '5px',"border": "2px solid #D6D300", "text-align":"center"};
                 $scope.show.loading = false;
             }
 
 
             var url = function () {
-                return {userid: $localStorage.userid};
+                return {userid: $rootScope.user.staffId};
             }
 
             var update = function () {
@@ -32,13 +33,9 @@ module.factory('Activity', function ($resource) {
             $scope.update = update;
 
             $scope.add = function addActivity() {
-                if ($localStorage.rights < 1) {
-                    alert("you have no access to writing information\n Contact your administator");
-                    return;
-                }
 
                 var a = new Activity();
-                a.empl = {"id": $localStorage.userid};
+                a.empl = {"id": $rootScope.user.staffId};
                 a.proj = {"id": $scope.projid.split(" - ")[0]};
                 a.hours = $scope.hours;
                 a.note = $scope.note;
@@ -51,9 +48,9 @@ module.factory('Activity', function ($resource) {
                 if ($scope.fillseveraldates) {
                     var bdate = new Date($scope.fromDate);
                     var edate = new Date($scope.toDate);
-                    var acts = [];
-                    for (; bdate <= edate; bdate.setDate(bdate.getDate()+1)) {
-                        if (bdate.getDay() == 6 || bdate.getDay() == 0) continue;
+                    for (; bdate <= edate; bdate.setDate(bdate.getDate() + 1)) {
+                        if (bdate.getDay() == 6 || bdate.getDay() == 0)
+                            continue;
                         //this piece sucks
                         var d = new Date(bdate.getTime());
                         a.date = d;
@@ -66,23 +63,20 @@ module.factory('Activity', function ($resource) {
                         a1.description = a.description;
                         a1.typeId = a.typeId;
                         a1.date = d;
-                        a1.$save(url());
+                        a1.$save();
                     }
-                    
-                    
+
+
                 } else {
                     var date = new Date($scope.date);
                     if (date.getDay() == 6 || date.getDay() == 0) {
-                        alert("fail");
                         $scope.show.message = "You have selected a day off";
-                        $scope.show.style = $scope.show.errorStyle;
+                        $scope.show.style = $scope.show.warningStyle;
                         $scope.show.show = true;
-                        return;
-                    } else {
-                        alert("suc");
+                    } 
                         a.date = $scope.date;
-                        a.$save(url(), update());
-                    }
+                        a.$save();
+                    
 
                 }
                 $scope.show.message = "Data has been added successfully";
@@ -92,20 +86,21 @@ module.factory('Activity', function ($resource) {
             }
 
             $scope.applyDates = function () {
+
                 var m = $scope.start.getMonth() + 1;
                 var s = $scope.start.getFullYear() + "-" + m + "-" + $scope.start.getDate();
                 m = $scope.end.getMonth() + 1;
                 var e = $scope.end.getFullYear() + "-" + m + "-" + $scope.end.getDate();
 
-                $http.get($localStorage.userid + "/a/" + s + "_" + e
+                $http.get("api/activities/" + $rootScope.user.staffId + "/" + s + "_" + e
                         ).then(function successCallback(response) {
-
-
                     $scope.activities = response.data;
                 }, function errorCallback(response) {
-                    alert($localStorage.userid + "/a/" +
-                            s + "_" + e);
                 });
+                update();
+            }
+
+            $scope.resetDates = function () {
                 update();
             }
 
@@ -115,7 +110,7 @@ module.factory('Activity', function ($resource) {
                 m = $scope.end.getMonth() + 1;
                 var e = $scope.end.getFullYear() + "-" + m + "-" + $scope.end.getDate();
 
-                $http.get($localStorage.userid + "/a/" + s + "_" + e
+                $http.get("api/activities/" + $rootScope.user.staffId + "/" + s + "_" + e
                         ).then(function successCallback(response) {
 
 
@@ -153,10 +148,7 @@ module.factory('Activity', function ($resource) {
                     });
 
                     $scope.activities = obj;
-                    console.log($scope.activities);
                 }, function errorCallback(response) {
-                    alert($localStorage.userid + "/a/" +
-                            s + "_" + e);
                 });
 
             }
@@ -170,7 +162,7 @@ module.factory('Activity', function ($resource) {
             };
 
             $scope.delete = function (id) {
-                $http.delete($localStorage.userid + "/a/" + id).success(function () {
+                $http.delete("api/activities/"+ id).success(function () {
 
                     update();
                 });
@@ -195,7 +187,7 @@ module.factory('Activity', function ($resource) {
             $scope.save = function () {
                 var a = new Activity();
                 a.id = $scope.act_id;
-                a.empl = {"id": $localStorage.userid};
+                a.empl = {"id": $rootScope.user.staffId};
                 a.proj = {"id": $scope.projid};
                 a.hours = $scope.hours;
                 a.date = $scope.date;
@@ -206,7 +198,7 @@ module.factory('Activity', function ($resource) {
                 else
                     a.typeId = 6;
                 a.description = $scope.desc;
-                $http.put($localStorage.userid + '/a', a).then(
+                $http.put($rootScope.user.staffId + '/a', a).then(
                         function successCallback() {
                             hide();
                             update();
@@ -217,32 +209,32 @@ module.factory('Activity', function ($resource) {
 
             }
 
-            
+
 
             function hide() {
                 document.getElementsByClassName("module-win")[0].style.display = "none";
             }
 
             $scope.hide = hide;
-            
-            
+
+
             $scope.projects = $localStorage.projects;
-            loadProjects = function(){
+            loadProjects = function () {
                 $scope.show.loading = true;
-                $http.get("/p/all").success(function (response) {
+                $http.get("/api/projects").success(function (response) {
                     $localStorage.projects = response;
                 });
                 $scope.show.loading = false;
             }
             if ($localStorage.projects == undefined) {
                 loadProjects();
-                
+
             }
             $scope.loadProjects = loadProjects;
-            
+
 
             $scope.loadManaged = function loadManaged(id) {
-                $http.get("/p/" + $localStorage.userid).success(
+                $http.get("/api/projects/" + $rootScope.user.staffId).success(
                         function (response) {
                             $scope.mngproj = response;
                         }
@@ -251,9 +243,16 @@ module.factory('Activity', function ($resource) {
 
             $scope.info = info;
             function info() {
-                $http.get("p/info/" + $rootScope.pid).success(function (response) {
+                $http({
+                    method: "GET",
+                    url: "api/activities/",
+                    params: {
+                        projid:$rootScope.pid
+                    }
+                }).success(function (response) {
+                    if (response.length==0) return;
                     var map = new Map();
-                    var name = response[0].empl.name + response[0].empl.sname;
+                    var name = response[0].empl.name +" "+ response[0].empl.sname;
                     for (var i = 0; i < response.length; i++) {
                         if (map.has(response[i].empl.id)) {
                             var value = map.get(response[i].empl.id);
@@ -291,7 +290,7 @@ module.factory('Activity', function ($resource) {
 
             var summary = function () {
 
-                $http.get($localStorage.userid + "/a").success(function (response) {
+                $http.get("api/activities/"+$rootScope.user.staffId).success(function (response) {
                     $scope.activities = response;
                     var m = new Map();
                     for (var i = 0; i < $scope.activities.length; i++) {
@@ -334,6 +333,16 @@ module.factory('Activity', function ($resource) {
                 $rootScope.pid = pid;
                 $state.go("/act.projectinfo");
 
+            }
+            
+            
+            $scope.validate = function() {
+                if ($scope.date.getDay()==6 || $scope.date.getDay()==0){
+                    $scope.show.show = true;
+                    $scope.show.style= $scope.show.warningStyle;
+                    $scope.show.message = "You have selected a day off";
+                } 
+                
             }
 
         })

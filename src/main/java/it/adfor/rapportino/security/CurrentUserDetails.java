@@ -26,4 +26,8 @@ public class CurrentUserDetails
     public String getScope() {
         return user.getScope();
     }
+    
+    public Integer getStaffId(){
+        return user.getStaffId();
+    }
 }

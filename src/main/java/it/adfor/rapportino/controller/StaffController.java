@@ -24,7 +24,6 @@ public class StaffController {
     
     @RequestMapping( method=RequestMethod.PUT)
     public void updateStaff(@RequestBody Staff s){
-        System.out.println(s.getCompany().getId());
         staffRepository.save(s);
     }
     

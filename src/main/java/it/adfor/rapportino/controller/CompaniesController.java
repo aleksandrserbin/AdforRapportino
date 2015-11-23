@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/companies")
+@RequestMapping("/api/companies")
 public class CompaniesController {
     
     @Autowired

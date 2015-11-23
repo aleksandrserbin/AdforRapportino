@@ -4,18 +4,19 @@
     <input ng-model="start" type="date">
     <input ng-model="end" type="date">
     <button ng-click="applyDates()">Apply</button>
+    <button ng-click="update()">Reset</button>
 </form>
 <table  class="activityOutput" ng-init="update()">
     <tr>
         <td ng-click="reorder('proj.name')" style="background-color:#FCBB2D">Project name</td>
         <td ng-click="reorder('typeId')" style="background-color:#FCBB2D">Type</td>
-        <td ng-click="reorder('date')" style="background-color:#FCBB2D">Date</td>
+        <td ng-click="reorder('date')" style="background-color:#FCBB2D" >Date</td>
         <td ng-click="reorder('hours')" style="background-color:#FCBB2D">Hours</td>
         <td ng-click="reorder('description')" style="background-color:#FCBB2D">Description</td>
-        <td style="background-color:#FCBB2D"></td>
-        <td style="background-color:#FCBB2D"></td>
+        <td style="background-color:#FCBB2D"> Edit</td>
+        <td style="background-color:#FCBB2D"> Delete</td>
     </tr>
-    <tr dir-paginate="a in activities | orderBy:predicate:reverse | itemsPerPage:50 ">
+    <tr dir-paginate="a in activities | orderBy:predicate:reverse | itemsPerPage:50">
         <td style="display:none">{{a.id}}</td>
         <td>{{a.proj.name}}</td>
         <td>{{a.typeId}}</td>

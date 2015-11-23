@@ -12,7 +12,7 @@
         </tr>
         <tr ng-show="!fillseveraldates">
             <td> Date</td>
-            <td><input ng-model="date" type="date"></td>
+            <td><input ng-model="date" type="date" ng-change="validate()"></td>
         </tr>
         <tr>
             <td> Fill several days</td>

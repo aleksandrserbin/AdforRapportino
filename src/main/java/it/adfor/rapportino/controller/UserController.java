@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package it.adfor.rapportino.controller;
 
 import it.adfor.rapportino.AppConfig;
@@ -18,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,26 +33,14 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
     
-    @RequestMapping(method=RequestMethod.GET)
-    User checkUser(HttpServletRequest req) {
-        String u = req.getParameter("username");
-        String p = req.getParameter("password");
-        AnnotationConfigApplicationContext ctx =  new AnnotationConfigApplicationContext(AppConfig.class);
-        UserDao udao =  ctx.getBean("userDao", UserDao.class);
-        if (udao.checkIfExists(u, p))
-        return userRepository.findByUsername(u);
-        else 
-            System.out.println("heh mda");
-        return null;
-    }
     
     @RequestMapping(value="{id}",method=RequestMethod.GET)
     User getUser(@PathVariable Integer id) {
-        return userRepository.findByStaffId(id);
+        return userRepository.findByStaffid(id);
     }
+    
     @RequestMapping(method=RequestMethod.PUT)
     void setUser(@RequestBody User u, @RequestParam("password") String pass) {
-        System.out.println(pass);
         u.setPassword(pass);
         userRepository.save(u);
     }

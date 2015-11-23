@@ -62,7 +62,6 @@ module.controller('UserController', function ($scope, $http, $state, $localStora
         }).success(function () {
             $http.get("users/cur").then(
                     function successCallback(response) {
-                        console.log(response);
                         if (response.data.user) {
                             $rootScope.authorized = true;
                             $rootScope.user = new Object();

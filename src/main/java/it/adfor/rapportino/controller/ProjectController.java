@@ -19,28 +19,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/p")
+@RequestMapping("/api/projects")
 public class ProjectController {
 
     @Autowired
     ProjectRepository projectRepository;
 
-    @Autowired
-    ActivityRepository activityRepository;
 
-    @RequestMapping(value = "all", method = RequestMethod.GET)
+    @RequestMapping( method = RequestMethod.GET)
     public Iterable<Project> getProjects() {
         return projectRepository.findAll();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public Iterable<Project> getProjectsByPm(@PathVariable("id") Integer pmid) {
+    @RequestMapping(value = "{pmid}", method = RequestMethod.GET)
+    public Iterable<Project> getProjectsByPm(@PathVariable("pmid") Integer pmid) {
         return projectRepository.findByPmId(pmid);
     }
 
-    @RequestMapping(value = "info/{pid}", method = RequestMethod.GET)
-    public Collection<Activity> getActivitiesByProject(@PathVariable("pid") Integer id) {
-        return activityRepository.findByProjId(id);
-    }
+    
 
 }

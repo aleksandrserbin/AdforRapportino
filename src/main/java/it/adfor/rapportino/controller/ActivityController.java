@@ -20,18 +20,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("{userid}/a")
+@RequestMapping("api/activities")
 public class ActivityController {
 
     @Autowired
     ActivityRepository activityRepository;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value="{userid}",method = RequestMethod.GET)
     Collection<Activity> getActivities(@PathVariable Integer userid) {
         return activityRepository.findByEmplId(userid);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "{s}_{e}")
+    @RequestMapping(method = RequestMethod.GET, value = "{userid}/{s}_{e}")
     Collection<Activity> getActivities(@PathVariable("s") String ss, @PathVariable("e") String se, @PathVariable("userid") Integer id) {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -45,16 +45,9 @@ public class ActivityController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void addActivity(@Valid @RequestBody Activity a) {
-        System.out.println(a.getDate());
         activityRepository.save(a);
     }
     
-    @RequestMapping(value="a",method = RequestMethod.POST)
-    public void addActivities(@Valid @RequestBody Activity[] acts) {
-        for (Activity a :acts){
-            activityRepository.save(a);
-        }
-    }
 
     @RequestMapping(value="{a_id}",method = RequestMethod.DELETE)
     public void deleteActivity(@PathVariable("a_id") Integer id) {
@@ -66,6 +59,9 @@ public class ActivityController {
         activityRepository.save(a);
     }
     
-    
+    @RequestMapping(method = RequestMethod.GET)
+    public Collection<Activity> getActivitiesByProject(@RequestParam("projid") Integer id) {
+        return activityRepository.findByProjId(id);
+    }
 
 }

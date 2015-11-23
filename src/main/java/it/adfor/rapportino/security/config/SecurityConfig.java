@@ -28,7 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .loginPage("/login")
                 .usernameParameter("username").passwordParameter("password")
                 .permitAll().and().csrf().disable().authorizeRequests()
-                .antMatchers("/login").permitAll();
+                .antMatchers("/login").permitAll()
+                .and().authorizeRequests().antMatchers("/api/**")
+                .hasAnyRole("USER","MOD","ADM");
                 
     }
 
