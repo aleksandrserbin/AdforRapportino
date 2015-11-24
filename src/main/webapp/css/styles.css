@@ -239,3 +239,7 @@ nav div:hover{
     background-color: rgba(206,206,206,0.5);
     position: fixed;
 }
+
+#filterPanel {
+    background-color: #FCBB2D;
+}

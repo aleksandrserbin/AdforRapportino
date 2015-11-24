@@ -10,6 +10,7 @@ import it.adfor.rapportino.model.Project;
 import it.adfor.rapportino.repository.ActivityRepository;
 import it.adfor.rapportino.repository.ProjectRepository;
 import java.util.Collection;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -33,7 +34,16 @@ public class ProjectController {
 
     @RequestMapping(value = "{pmid}", method = RequestMethod.GET)
     public Iterable<Project> getProjectsByPm(@PathVariable("pmid") Integer pmid) {
-        return projectRepository.findByPmId(pmid);
+        Iterable<Project> projects =  projectRepository.findByPmId(pmid);
+        for (Project p : projects){
+            Hibernate.initialize(p.getClient());
+            Hibernate.initialize(p.getCm());
+            Hibernate.initialize(p.getCommittente());
+            Hibernate.initialize(p.getPm());
+            Hibernate.initialize(p.getStatus());
+            Hibernate.initialize(p.getDivision());
+        }
+        return projects;
     }
 
     

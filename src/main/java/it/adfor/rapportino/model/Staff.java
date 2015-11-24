@@ -24,7 +24,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="staff")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonAutoDetect
 public class Staff implements Serializable{
     @Id @GeneratedValue
@@ -32,7 +32,7 @@ public class Staff implements Serializable{
     private String name;
     private String sname;
     private String fiscal;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 

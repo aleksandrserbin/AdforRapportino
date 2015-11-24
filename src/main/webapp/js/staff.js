@@ -22,6 +22,7 @@ module.controller('StaffController', function ($http, $scope, $localStorage, $ro
         $http.get("/users/" + $rootScope.user.staffId).success(function (response) {
             var user = response;
             $scope.login = user.username;
+            $scope.staffid = user.staffId;
         });
     }
 
@@ -39,6 +40,8 @@ module.controller('StaffController', function ($http, $scope, $localStorage, $ro
             if ($scope.pass != null && $scope.pass != undefined && $scope.pass != "") {
                 var u = new Object();
                 u.username = $scope.login;
+                u.scope = $rootScope.user.scope;
+                u.staffId = $scope.staffid;
                 $http({
                     method: 'PUT',
                     url: '/users',

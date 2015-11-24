@@ -1,11 +1,14 @@
-<p>You can select dates, between which you want to get data</p>
 
-<form >
-    <input ng-model="start" type="date">
-    <input ng-model="end" type="date">
+<div id="filterPanel" ng-click="show.showFilters = !show.showFilters"> Filters </div>
+<div ng-show="show.showFilters">
+    <p>Search by project name</p>
+    <input ng-model="searchpname">
+    <p>You can select dates, between which you want to get data</p>
+    From: <input ng-model="start" type="date">
+    To: <input ng-model="end" type="date">
     <button ng-click="applyDates()">Apply</button>
     <button ng-click="update()">Reset</button>
-</form>
+</div>
 <table  class="activityOutput" ng-init="update()">
     <tr>
         <td ng-click="reorder('proj.name')" style="background-color:#FCBB2D">Project name</td>
@@ -16,9 +19,9 @@
         <td style="background-color:#FCBB2D"> Edit</td>
         <td style="background-color:#FCBB2D"> Delete</td>
     </tr>
-    <tr dir-paginate="a in activities | orderBy:predicate:reverse | itemsPerPage:50">
+    <tr dir-paginate="a in activities | orderBy:predicate:reverse |  filter:a.proj.name:searchpname | filter:{ proj:{name:searchpname}} | itemsPerPage:50">
         <td style="display:none">{{a.id}}</td>
-        <td>{{a.proj.name}}</td>
+        <td>{{a.proj.name }}</td>
         <td>{{a.typeId}}</td>
         <td>{{a.date}}</td>
         <td>{{a.hours}}</td>

@@ -1,4 +1,3 @@
-
 package it.adfor.rapportino.controller;
 
 import it.adfor.rapportino.model.Activity;
@@ -10,6 +9,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +26,13 @@ public class ActivityController {
     @Autowired
     ActivityRepository activityRepository;
 
-    @RequestMapping(value="{userid}",method = RequestMethod.GET)
+    @RequestMapping(value = "{userid}", method = RequestMethod.GET)
     Collection<Activity> getActivities(@PathVariable Integer userid) {
-        return activityRepository.findByEmplId(userid);
+        Collection<Activity> acts = activityRepository.findByEmplId(userid);
+        for (Activity act : acts) {
+            Hibernate.initialize(act.getProj().getId());
+        }
+        return acts;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{userid}/{s}_{e}")
@@ -37,7 +41,12 @@ public class ActivityController {
         try {
             Date s = formatter.parse(ss);
             Date e = formatter.parse(se);
-            return activityRepository.findByDateBetweenAndEmplId(s, e, id);
+            Collection<Activity> acts
+                    = activityRepository.findByDateBetweenAndEmplId(s, e, id);
+            for (Activity act : acts) {
+                Hibernate.initialize(act.getProj().getId());
+            }
+            return acts;
         } catch (Exception ex) {
             return null;
         }
@@ -47,21 +56,26 @@ public class ActivityController {
     public void addActivity(@Valid @RequestBody Activity a) {
         activityRepository.save(a);
     }
-    
 
-    @RequestMapping(value="{a_id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "{a_id}", method = RequestMethod.DELETE)
     public void deleteActivity(@PathVariable("a_id") Integer id) {
         activityRepository.delete(id);
     }
-    
-    @RequestMapping(method=RequestMethod.PUT)
-    public void updateActivity(@RequestBody Activity a){
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public void updateActivity(@RequestBody Activity a) {
         activityRepository.save(a);
     }
-    
+
     @RequestMapping(method = RequestMethod.GET)
     public Collection<Activity> getActivitiesByProject(@RequestParam("projid") Integer id) {
-        return activityRepository.findByProjId(id);
+        Collection<Activity> acts
+                = activityRepository.findByProjId(id);
+        for (Activity act : acts) {
+            Hibernate.initialize(act.getProj().getId());
+            Hibernate.initialize(act.getEmpl());
+        }
+        return acts;
     }
 
 }

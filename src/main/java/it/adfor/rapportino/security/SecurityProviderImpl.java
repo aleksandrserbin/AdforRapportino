@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 public class SecurityProviderImpl implements SecurityProvider{
     @Override
     public boolean hasAccess(Object cuds, Integer id){
-        System.out.println("!!!!!!!!!!!!!!!!!"+id);
         if (cuds instanceof CurrentUserDetails) {
             CurrentUserDetails cud = (CurrentUserDetails) cuds;
             return cud!=null && (cud.getScope().equals("ADM") || 

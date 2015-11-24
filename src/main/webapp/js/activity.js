@@ -12,6 +12,7 @@ module.factory('Activity', function ($resource) {
                 }
                 $scope.show = new Object();
                 $scope.show.show = false;
+                $scope.show.showFilters = false;
                 $scope.show.style = {};
                 $scope.show.errorStyle = {'background-color': '#FF8080', 'padding': '5px', "border": "2px solid red", "text-align":"center"};
                 $scope.show.successStyle = {'background-color': '#81E383', 'padding': '5px',"border": "2px solid green", "text-align":"center"};
@@ -198,7 +199,7 @@ module.factory('Activity', function ($resource) {
                 else
                     a.typeId = 6;
                 a.description = $scope.desc;
-                $http.put($rootScope.user.staffId + '/a', a).then(
+                $http.put("api/activities/", a).then(
                         function successCallback() {
                             hide();
                             update();

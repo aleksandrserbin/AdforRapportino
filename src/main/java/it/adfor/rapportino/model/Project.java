@@ -26,7 +26,7 @@ import static javax.persistence.TemporalType.DATE;
 
 @Entity
 @Table(name = "Projects")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonAutoDetect
 public class Project implements Serializable{
 

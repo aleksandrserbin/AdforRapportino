@@ -42,6 +42,7 @@ public class UserController {
     @RequestMapping(method=RequestMethod.PUT)
     void setUser(@RequestBody User u, @RequestParam("password") String pass) {
         u.setPassword(pass);
+        System.out.println(u.getStaffId());
         userRepository.save(u);
     }
     
