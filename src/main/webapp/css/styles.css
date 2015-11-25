@@ -3,7 +3,9 @@
 working obly with less css
 @org=#FCBB2D;
 darkerorg = #E3A828
-@bl=#2B3E75;*/ 
+@bl=#2B3E75;
+highlight=#FCD083
+*/ 
 
 #wrapper {
 
@@ -242,4 +244,8 @@ nav div:hover{
 
 #filterPanel {
     background-color: #FCBB2D;
+}
+
+.summaryTable td:hover{
+    background-color: #FCD083;
 }

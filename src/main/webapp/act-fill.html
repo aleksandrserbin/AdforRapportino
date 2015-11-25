@@ -5,9 +5,12 @@
     <table>
         <tr>
             <td> Project Id</td>
-            <td><select  style="width:80%;" ng-model="projid"> 
-                    <option ng-repeat="p in projects">{{p.id}} - {{p.name}}</option>
+            <td>
+                <select  style="width:80%;" ng-model="projid" ng-change="validate()"> 
+                    <option ng-repeat="p in projects" value="{{p.id}}">{{p.id}} - {{p.name}}</option>
                 </select>
+                
+                <img src="res/refresh.png" ng-click="loadProjects();scope.$apply();">
             </td>
         </tr>
         <tr ng-show="!fillseveraldates">
@@ -16,7 +19,7 @@
         </tr>
         <tr>
             <td> Fill several days</td>
-            <td><input ng-model="fillseveraldates" type="checkbox"></td>
+            <td><input ng-model="fillseveraldates" type="checkbox" ng-change="validate()"></td>
         </tr>
         <tr ng-show="fillseveraldates">
             <td> From</td>

@@ -24,7 +24,12 @@ module.config(function ($stateProvider, $urlRouterProvider) {
     }).state("/act.watch", {
         url: "/watch",
         templateUrl: "act-watch.html",
-        controller: "ActivityController"
+        controller: "ActivityController",
+        params : {
+            name:"",
+            bdate: new Date(new Date().getFullYear(),new Date().getMonth(),1),
+            edate: new Date(new Date().getFullYear(),new Date().getMonth()+1,1)
+        }
     }).state("/act.watchs", {
         url: "/mysummary",
         templateUrl: "act-watch-summary.html",

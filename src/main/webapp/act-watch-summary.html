@@ -10,8 +10,8 @@
         <td style="background-color:#FCBB2D">Payable Hours</td>
         <td style="background-color:#FCBB2D">N Hours</td>
     </tr>
-    <tr  ng-repeat="a in activities" >
-        <td>{{a.key}}</td>
+    <tr  class="summaryTable" ng-repeat="a in activities" >
+        <td ng-click="detailedSummary(a.key)">{{a.key}}</td>
         <td>{{a.value.hours}}</td>
         <td>{{a.value.nhours}}</td>
     </tr>

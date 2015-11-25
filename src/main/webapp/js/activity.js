@@ -14,9 +14,9 @@ module.factory('Activity', function ($resource) {
                 $scope.show.show = false;
                 $scope.show.showFilters = false;
                 $scope.show.style = {};
-                $scope.show.errorStyle = {'background-color': '#FF8080', 'padding': '5px', "border": "2px solid red", "text-align":"center"};
-                $scope.show.successStyle = {'background-color': '#81E383', 'padding': '5px',"border": "2px solid green", "text-align":"center"};
-                $scope.show.warningStyle = {'background-color': 'yellow', 'padding': '5px',"border": "2px solid #D6D300", "text-align":"center"};
+                $scope.show.errorStyle = {'background-color': '#FF8080', 'padding': '5px', "border": "2px solid red", "text-align": "center"};
+                $scope.show.successStyle = {'background-color': '#81E383', 'padding': '5px', "border": "2px solid green", "text-align": "center"};
+                $scope.show.warningStyle = {'background-color': 'yellow', 'padding': '5px', "border": "2px solid #D6D300", "text-align": "center"};
                 $scope.show.loading = false;
             }
 
@@ -29,15 +29,18 @@ module.factory('Activity', function ($resource) {
 
                 $scope.activities = Activity.query(url());
                 $scope.projectActivities = $localStorage.projectActivities;
+                $scope.searchpname = $state.params.name;
+                $scope.start = $state.params.bdate;
+                $scope.end = $state.params.edate;
+                $scope.applyDates();
             }
 
             $scope.update = update;
 
             $scope.add = function addActivity() {
-
                 var a = new Activity();
                 a.empl = {"id": $rootScope.user.staffId};
-                a.proj = {"id": $scope.projid.split(" - ")[0]};
+                a.proj = {"id": $scope.projid};
                 a.hours = $scope.hours;
                 a.note = $scope.note;
                 a.place = $scope.place;
@@ -70,14 +73,9 @@ module.factory('Activity', function ($resource) {
 
                 } else {
                     var date = new Date($scope.date);
-                    if (date.getDay() == 6 || date.getDay() == 0) {
-                        $scope.show.message = "You have selected a day off";
-                        $scope.show.style = $scope.show.warningStyle;
-                        $scope.show.show = true;
-                    } 
-                        a.date = $scope.date;
-                        a.$save();
-                    
+                    a.date = $scope.date;
+                    a.$save();
+
 
                 }
                 $scope.show.message = "Data has been added successfully";
@@ -87,7 +85,6 @@ module.factory('Activity', function ($resource) {
             }
 
             $scope.applyDates = function () {
-
                 var m = $scope.start.getMonth() + 1;
                 var s = $scope.start.getFullYear() + "-" + m + "-" + $scope.start.getDate();
                 m = $scope.end.getMonth() + 1;
@@ -98,7 +95,8 @@ module.factory('Activity', function ($resource) {
                     $scope.activities = response.data;
                 }, function errorCallback(response) {
                 });
-                update();
+                //update();
+                //$scope.$apply();
             }
 
             $scope.resetDates = function () {
@@ -163,7 +161,7 @@ module.factory('Activity', function ($resource) {
             };
 
             $scope.delete = function (id) {
-                $http.delete("api/activities/"+ id).success(function () {
+                $http.delete("api/activities/" + id).success(function () {
 
                     update();
                 });
@@ -219,17 +217,18 @@ module.factory('Activity', function ($resource) {
             $scope.hide = hide;
 
 
-            $scope.projects = $localStorage.projects;
+
             loadProjects = function () {
+                alert("loading");
                 $scope.show.loading = true;
                 $http.get("/api/projects").success(function (response) {
                     $localStorage.projects = response;
                 });
                 $scope.show.loading = false;
+                $scope.projects = $localStorage.projects;
             }
             if ($localStorage.projects == undefined) {
                 loadProjects();
-
             }
             $scope.loadProjects = loadProjects;
 
@@ -248,12 +247,13 @@ module.factory('Activity', function ($resource) {
                     method: "GET",
                     url: "api/activities/",
                     params: {
-                        projid:$rootScope.pid
+                        projid: $rootScope.pid
                     }
                 }).success(function (response) {
-                    if (response.length==0) return;
+                    if (response.length == 0)
+                        return;
                     var map = new Map();
-                    var name = response[0].empl.name +" "+ response[0].empl.sname;
+                    var name = response[0].empl.name + " " + response[0].empl.sname;
                     for (var i = 0; i < response.length; i++) {
                         if (map.has(response[i].empl.id)) {
                             var value = map.get(response[i].empl.id);
@@ -291,7 +291,7 @@ module.factory('Activity', function ($resource) {
 
             var summary = function () {
 
-                $http.get("api/activities/"+$rootScope.user.staffId).success(function (response) {
+                $http.get("api/activities/" + $rootScope.user.staffId).success(function (response) {
                     $scope.activities = response;
                     var m = new Map();
                     for (var i = 0; i < $scope.activities.length; i++) {
@@ -335,15 +335,41 @@ module.factory('Activity', function ($resource) {
                 $state.go("/act.projectinfo");
 
             }
-            
-            
-            $scope.validate = function() {
-                if ($scope.date.getDay()==6 || $scope.date.getDay()==0){
-                    $scope.show.show = true;
-                    $scope.show.style= $scope.show.warningStyle;
+
+
+            $scope.validate = function () {
+                var date = new Date($scope.date);
+                if ((date.getDay() == 6 || date.getDay() == 0) && !$scope.fillseveraldates) {
                     $scope.show.message = "You have selected a day off";
-                } 
-                
+                    $scope.show.style = $scope.show.warningStyle;
+                    $scope.show.show = true;
+                    return;
+                } else {
+                    var p = $filter('filter')($localStorage.projects, {id: $scope.projid},
+                    function (actual, expected) {
+                        if (actual == expected)
+                            return true;
+                        return false;
+                    }
+                    );
+                    if (p[0].status != "Attivo") {
+                        $scope.show.message = "You have selected project that is closed";
+                        $scope.show.style = $scope.show.warningStyle;
+                        $scope.show.show = true;
+                        return;
+                    }
+                }
+                $scope.show.show = false;
+
             }
+            
+            $scope.detailedSummary = function(name) {
+                $state.go("/act.watch",
+                    {name:name, bdate:$scope.start, edate:$scope.end});
+            }
+            
+            
+            $scope.projects = $localStorage.projects;
+
 
         })
