@@ -26,18 +26,19 @@ module.factory('Activity', function ($resource) {
             }
 
             var update = function () {
-
+                
                 $scope.activities = Activity.query(url());
                 $scope.projectActivities = $localStorage.projectActivities;
                 $scope.searchpname = $state.params.name;
-                $scope.start = $state.params.bdate;
-                $scope.end = $state.params.edate;
+                if ($state.params.bdate!=null) $scope.start = $state.params.bdate;
+                if ($state.params.edate!=null)$scope.end = $state.params.edate;
                 $scope.applyDates();
             }
 
             $scope.update = update;
 
             $scope.add = function addActivity() {
+                if (!verifyInput()) return;
                 var a = new Activity();
                 a.empl = {"id": $rootScope.user.staffId};
                 a.proj = {"id": $scope.projid};
@@ -81,7 +82,6 @@ module.factory('Activity', function ($resource) {
                 $scope.show.message = "Data has been added successfully";
                 $scope.show.style = $scope.show.successStyle;
                 $scope.show.show = true;
-                update();
             }
 
             $scope.applyDates = function () {
@@ -90,15 +90,48 @@ module.factory('Activity', function ($resource) {
                 m = $scope.end.getMonth() + 1;
                 var e = $scope.end.getFullYear() + "-" + m + "-" + $scope.end.getDate();
 
-                $http.get("api/activities/" + $rootScope.user.staffId + "/" + s + "_" + e
-                        ).then(function successCallback(response) {
-                    $scope.activities = response.data;
-                }, function errorCallback(response) {
-                });
-                //update();
-                //$scope.$apply();
+                $http.get("api/activities/" + $rootScope.user.staffId + "/" + s + "_" + e)
+                        .then(function successCallback(response) {
+                            $scope.activities = response.data;
+                            checkIfFilled();  
+                        }, function errorCallback(response) {
+                        });
+                
             }
-
+            
+            function checkIfFilled(){
+                var m = new Map();
+                var d  = new Date();
+                var b = new Date(d.getTime());
+                b.setDate(1);
+                var e = new Date(b.getTime());
+                e.setMonth(e.getMonth()+1);
+                for (;b<e;b.setDate(b.getDate()+1)){
+                    var temp = new Date(d.getTime());
+                    temp.setDate(b.getDate());
+                    if (temp.getDay()==0 || temp.getDay()==6) continue;
+                    m.set(b.getDate(),null);
+                }
+                if ( $scope.start.getMonth()==d.getMonth() &&
+                        $scope.end.getMonth() == d.getMonth()+1 &&
+                        d.getDate()>25) {
+                    for (var i=0;i<$scope.activities.length;i++){
+                        var el = $scope.activities[i];
+                        var temp = new Date(el.date);
+                        m.set(temp.getDate(), m.get(temp.getDate())+el.hours);
+                    }
+                    m.forEach(function(value,key){
+                        if (value<8) {
+                            $scope.show.message = "You have less than 8 hours on some dates!";
+                            $scope.show.style = $scope.show.warningStyle;
+                            $scope.show.show=true;
+                            return;
+                        }
+                    });
+                   
+                }
+            }
+            
             $scope.resetDates = function () {
                 update();
             }
@@ -219,11 +252,15 @@ module.factory('Activity', function ($resource) {
 
 
             loadProjects = function () {
-                alert("loading");
                 $scope.show.loading = true;
                 $http.get("/api/projects").success(function (response) {
                     $localStorage.projects = response;
                 });
+                $http.get("/api/projects/clients").success(
+                    function(response){
+                        $scope.clients = response;
+                    }
+                );
                 $scope.show.loading = false;
                 $scope.projects = $localStorage.projects;
             }
@@ -336,7 +373,7 @@ module.factory('Activity', function ($resource) {
 
             }
 
-
+            
             $scope.validate = function () {
                 var date = new Date($scope.date);
                 if ((date.getDay() == 6 || date.getDay() == 0) && !$scope.fillseveraldates) {
@@ -362,13 +399,46 @@ module.factory('Activity', function ($resource) {
                 $scope.show.show = false;
 
             }
-            
-            $scope.detailedSummary = function(name) {
+
+            $scope.detailedSummary = function (name) {
                 $state.go("/act.watch",
-                    {name:name, bdate:$scope.start, edate:$scope.end});
+                        {name: name, bdate: $scope.start, edate: $scope.end});
+            }
+
+            $scope.filterProjects = function(){
+                if ($scope.client.length>3)
+                $scope.projects = $filter('filter')($localStorage.projects, {client:{name:$scope.client}});
+                //$scope.$apply();
             }
             
+            function verifyInput(){
+                if ($scope.projid==null || $scope.hours==null || $scope.hours=="" ||
+                        (!$scope.fillseveraldates && $scope.date==null) ||
+                        (($scope.fillseveraldates!=undefined || $scope.fillseveraldates==true)
+                        && ($scope.toDate ==null || 
+                        $scope.fromDate==null))) {
+                            $scope.show.message = "Some mandatory fields are not filled";
+                            $scope.show.style = $scope.show.errorStyle;
+                            $scope.show.show= true;
+                            return false;
+                        }
+                        return true;
+            }
             
+            $scope.report = function() {
+                var m = $scope.start.getMonth() + 1;
+                var s = $scope.start.getFullYear() + "-" + m + "-" + $scope.start.getDate();
+                m = $scope.end.getMonth() + 1;
+                var e = $scope.end.getFullYear() + "-" + m + "-" + $scope.end.getDate();
+                $http({
+                    method:'GET',
+                    url:"api/reports/"+$rootScope.user.staffId,
+                    params: {
+                        start:s,
+                        end: e
+                    }
+                })
+            }
             $scope.projects = $localStorage.projects;
 
 

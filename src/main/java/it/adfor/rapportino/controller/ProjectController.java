@@ -6,8 +6,10 @@
 package it.adfor.rapportino.controller;
 
 import it.adfor.rapportino.model.Activity;
+import it.adfor.rapportino.model.Client;
 import it.adfor.rapportino.model.Project;
 import it.adfor.rapportino.repository.ActivityRepository;
+import it.adfor.rapportino.repository.ClientRepository;
 import it.adfor.rapportino.repository.ProjectRepository;
 import java.util.Collection;
 import org.hibernate.Hibernate;
@@ -25,11 +27,16 @@ public class ProjectController {
 
     @Autowired
     ProjectRepository projectRepository;
-
+    @Autowired
+    ClientRepository clientRepository;
 
     @RequestMapping( method = RequestMethod.GET)
     public Iterable<Project> getProjects() {
-        return projectRepository.findAll();
+        Iterable<Project> projects =  projectRepository.findAll();
+        for(Project p : projects){
+            Hibernate.initialize(p.getClient());
+        }
+        return projects;
     }
 
     @RequestMapping(value = "{pmid}", method = RequestMethod.GET)
@@ -45,7 +52,11 @@ public class ProjectController {
         }
         return projects;
     }
-
+    
+    @RequestMapping(value="clients", method = RequestMethod.GET)
+    public Iterable<Client> getClients(){
+        return clientRepository.findAll();
+    }
     
 
 }

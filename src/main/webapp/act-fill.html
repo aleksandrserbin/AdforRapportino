@@ -4,7 +4,16 @@
     Add Activity:<br>
     <table>
         <tr>
-            <td> Project Id</td>
+            <td> Client</td>
+            <td>
+                <!--<input ng-model="client" ng-change="filterProjects()">-->
+                <select ng-model="client"  ng-change="filterProjects()">
+                    <option ng-repeat="c in clients | orderBy:name" value="{{c.name}}">{{c.name}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td> Project*</td>
             <td>
                 <select  style="width:80%;" ng-model="projid" ng-change="validate()"> 
                     <option ng-repeat="p in projects" value="{{p.id}}">{{p.id}} - {{p.name}}</option>
@@ -14,7 +23,7 @@
             </td>
         </tr>
         <tr ng-show="!fillseveraldates">
-            <td> Date</td>
+            <td> Date*</td>
             <td><input ng-model="date" type="date" ng-change="validate()"></td>
         </tr>
         <tr>
@@ -22,15 +31,15 @@
             <td><input ng-model="fillseveraldates" type="checkbox" ng-change="validate()"></td>
         </tr>
         <tr ng-show="fillseveraldates">
-            <td> From</td>
+            <td> From*</td>
             <td><input ng-model="fromDate" type="date"></td>
         </tr>
         <tr ng-show="fillseveraldates">
-            <td> To</td>
+            <td> To*</td>
             <td><input ng-model="toDate" type="date"></td>
         </tr>
         <tr>
-            <td>Hours</td>
+            <td>Hours*</td>
             <td><input ng-model="hours" type="text"></td>
         </tr>
         <tr>
