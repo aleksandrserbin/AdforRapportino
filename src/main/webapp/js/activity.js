@@ -5,7 +5,7 @@ module.factory('Activity', function ($resource) {
 
             init();
             function init() {
-                if ($rootScope.authorized == null || $rootScope.authorized == undefined)
+                if (!$rootScope.authorized || $rootScope.authorized == null || $rootScope.authorized == undefined)
                 {
                     $state.go("/err");
                     $localStorage.err = 1;
@@ -18,6 +18,7 @@ module.factory('Activity', function ($resource) {
                 $scope.show.successStyle = {'background-color': '#81E383', 'padding': '5px', "border": "2px solid green", "text-align": "center"};
                 $scope.show.warningStyle = {'background-color': 'yellow', 'padding': '5px', "border": "2px solid #D6D300", "text-align": "center"};
                 $scope.show.loading = false;
+                $scope.msg = msg;
             }
 
 
@@ -256,7 +257,7 @@ module.factory('Activity', function ($resource) {
                 $http.get("/api/projects").success(function (response) {
                     $localStorage.projects = response;
                 });
-                $http.get("/api/projects/clients").success(
+                $http.get("/api/companies/clients").success(
                     function(response){
                         $scope.clients = response;
                     }
@@ -271,7 +272,7 @@ module.factory('Activity', function ($resource) {
 
 
             $scope.loadManaged = function loadManaged(id) {
-                $http.get("/api/projects/" + $rootScope.user.staffId).success(
+                $http.get("/api/projects/pm/" + $rootScope.user.staffId).success(
                         function (response) {
                             $scope.mngproj = response;
                         }
@@ -290,6 +291,9 @@ module.factory('Activity', function ($resource) {
                     if (response.length == 0)
                         return;
                     var map = new Map();
+                    response[0].proj.status=="Attivo"?
+                        $scope.show.closeButton = true :
+                            $scope.show.closeButton = false;
                     var name = response[0].empl.name + " " + response[0].empl.sname;
                     for (var i = 0; i < response.length; i++) {
                         if (map.has(response[i].empl.id)) {
@@ -366,6 +370,21 @@ module.factory('Activity', function ($resource) {
                 })
 
             }
+            
+            $scope.closeProject = function(){
+                $http.get("api/projects/details/"+$rootScope.pid).success(
+                        function(response){
+                           $scope.project = response;
+                           $scope.project.status="Chiuso";
+                           $http.post("api/projects",$scope.project).success(
+                                   function(){
+                                        
+                                   }
+                            );
+                        }
+                );
+            }
+            
             $scope.summary = summary;
             $scope.setpid = function (pid) {
                 $rootScope.pid = pid;
@@ -418,6 +437,11 @@ module.factory('Activity', function ($resource) {
                         && ($scope.toDate ==null || 
                         $scope.fromDate==null))) {
                             $scope.show.message = "Some mandatory fields are not filled";
+                            $scope.show.style = $scope.show.errorStyle;
+                            $scope.show.show= true;
+                            return false;
+                        } else if ($scope.hours<0 || $scope.hours>8) {
+                            $scope.show.message = "Illegal input on hours";
                             $scope.show.style = $scope.show.errorStyle;
                             $scope.show.show= true;
                             return false;

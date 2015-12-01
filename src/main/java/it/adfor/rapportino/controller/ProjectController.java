@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,8 +39,22 @@ public class ProjectController {
         }
         return projects;
     }
-
-    @RequestMapping(value = "{pmid}", method = RequestMethod.GET)
+    @RequestMapping(value="{id}",method = RequestMethod.GET)
+    public Project getProject(@PathVariable Integer id){
+        return projectRepository.findOne(id);
+    }
+    
+    @RequestMapping(value="details/{id}",method = RequestMethod.GET)
+    public Project getDetailedProject(@PathVariable Integer id){
+        Project p = projectRepository.findOne(id);
+        Hibernate.initialize(p.getClient());
+        Hibernate.initialize(p.getPm());
+        Hibernate.initialize(p.getCm());
+        Hibernate.initialize(p.getDivision());
+        Hibernate.initialize(p.getType());
+        return p;
+    }
+    @RequestMapping(value = "pm/{pmid}", method = RequestMethod.GET)
     public Iterable<Project> getProjectsByPm(@PathVariable("pmid") Integer pmid) {
         Iterable<Project> projects =  projectRepository.findByPmId(pmid);
         for (Project p : projects){
@@ -53,10 +68,10 @@ public class ProjectController {
         return projects;
     }
     
-    @RequestMapping(value="clients", method = RequestMethod.GET)
-    public Iterable<Client> getClients(){
-        return clientRepository.findAll();
+    @RequestMapping( method = RequestMethod.POST)
+    public Integer saveProject(@RequestBody Project p){
+       return projectRepository.save(p).getId();
+        
     }
-    
 
 }

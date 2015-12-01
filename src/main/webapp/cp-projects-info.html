@@ -1,0 +1,75 @@
+<table ng-init="projectInfo()">
+    <tr ng-show="allowId">
+        <td>Id</td>
+        <td><input ng-model="project.id"></td>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td><input ng-model="project.name"></td>
+    </tr>
+    <tr>
+        <td>Client</td>
+        <td>
+            <select ng-model="data.client" id="client">
+                <option ng-repeat="c in clients" value="{{c.id}}">{{c.name}}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Project Manager</td>
+        <td>
+            <select ng-model="data.pm" id="pm">
+                <option ng-repeat="s in staff" value="{{s.id}}">{{s.sname}}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Client Manager</td>
+        <td>
+            <select ng-model="data.cm" id="cm">
+                <option ng-repeat="s in staff" value="{{s.id}}">{{s.sname}}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Begin</td>
+        <td><input ng-model="begin" type="date"></td>
+    </tr>
+    <tr>
+        <td>Closed</td>
+        <td><input ng-model="end" type="date"></td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td>
+            <select ng-model="status" id="status">
+                <option value="Attivo">Attivo</option>
+                <option value="Chiuso">Chiuso</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Division</td>
+        <td>
+            <select ng-model="data.division" id="divis">
+                <option ng-repeat="d in divisions" value="{{d.id}}">{{d.name}}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Type</td>
+        <td>
+            <select ng-model="type" id="type">
+                <option value="1">A</option>
+                <option value="2">F</option>
+                <option value="3">I</option>
+                <option value="4">K</option>
+                <option value="5">N</option>
+                <option value="6">P</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><button ng-click="saveProject()">{{msg["save"]}}</button></td>
+    </tr>
+</table>

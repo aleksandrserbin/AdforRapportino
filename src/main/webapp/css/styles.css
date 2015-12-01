@@ -6,10 +6,13 @@ darkerorg = #E3A828
 @bl=#2B3E75;
 highlight=#FCD083
 */ 
-
+body{
+    font-family: 'Ubuntu';
+    font-size: 16px;
+}
 #wrapper {
 
-	width:70%;
+	width:90%;
 	margin: 0 auto;
 	margin-top: 20;
 	background-color: white;
@@ -201,14 +204,25 @@ nav div:hover{
 
 .module-win{
     background-color: white;
-    border: 2px solid black;
-    display:none;
+    border: 5px solid #E3A828;
+    border-radius: 3%;
+    padding:15px;
     position: fixed;
     z-index: 10;
     top: 20%;
     left: 30%;
     width: 48%;
     padding:10px;
+}
+
+.fader {
+    position: fixed;
+    background-color: rgba(0,0,0,0.5);
+    width:100%;
+    top:0px;
+    left: 0px;
+    height: 100%;
+    z-index:9;
 }
 
 
@@ -244,8 +258,47 @@ nav div:hover{
 
 #filterPanel {
     background-color: #FCBB2D;
+    padding:5px;
+    border:1px solid #E3A828;
 }
 
 .summaryTable td:hover{
     background-color: #FCD083;
+}
+
+#sidemenu{
+    display: inline-block;
+    color:white;
+}
+
+#sidemenu div{
+    list-style-type: none;
+    padding:15px;
+    background-color: #2B3E75;
+}
+#sidemenu div:hover{
+    background-color: #FCBB2D;
+}
+#sidemenu div a{
+    text-decoration: none;
+    color:white;
+}
+
+#cpcontainer{
+    display: inline-block;
+    padding:10px;
+    vertical-align: top;
+}
+
+.btn1 {
+    border-radius: 10%;
+    padding:5px;
+    border: 1px solid #E3A828;
+    background-color: #FCBB2D;
+    color:white;
+    display:inline-block;
+}
+.btn1:hover {
+    border: 1px solid #FCBB2D;
+    background-color: #E3A828;
 }

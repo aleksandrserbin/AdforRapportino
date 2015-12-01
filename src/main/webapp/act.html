@@ -1,19 +1,19 @@
 <div ng-model="activityWindow" ng-controller="ActivityController">
     <nav>
         <div >
-            <a ui-sref=".fill"> Fill Timesheet</a>
+            <a ui-sref=".fill">{{msg['fill']}}</a>
         </div>
         <div>
-            <a ui-sref=".watch">Watch My Data</a>
+            <a ui-sref=".watch">{{msg['watch']}}</a>
         </div>
         <div>
-            <a ui-sref=".watchs">Watch Data Summary</a>
+            <a ui-sref=".watchs">{{msg['sum']}}</a>
         </div>
         <div>
-            <a ui-sref=".manp">Managed Projects</a>
+            <a ui-sref=".manp">{{msg['mng']}}</a>
         </div>
         <div>
-            <a ui-sref=".personal">Personal Settings</a>
+            <a ui-sref=".personal">{{msg['pset']}}</a>
         </div>
     </nav>
     

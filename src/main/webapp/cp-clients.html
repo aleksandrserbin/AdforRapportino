@@ -1,0 +1,42 @@
+<div class="btn1" ng-click="showEditClients(null)">Add client</div>
+<table data-ng-init="initClients()" class="activityOutput">
+    <tr>
+        <td style="background-color:#FCBB2D">Id</td>
+        <td style="background-color:#FCBB2D">Name</td>
+        <td style="background-color:#FCBB2D">Address</td>
+        <td style="background-color:#FCBB2D">Description</td>
+        <td style="background-color:#FCBB2D">Edit</td>
+    </tr>
+    <tr>
+        
+    </tr>
+    <tr ng-repeat="c in clients |orderBy:'name'" >
+        <td>{{c.id}}</td>
+        <td ng-click="toClientProjects(c.name)">{{c.name}}</td>
+        <td>{{c.address}}</td>
+        <td>{{c.description}}</td>
+        <td ng-click="showEditClients(c)">Edit</td>
+    </tr>
+</table>
+
+<div class="module-win" ng-show="show.moduleWin">
+    <table>
+        <tr>
+            <td> Name  </td>
+            <td> <input ng-model="client.name"> </td>
+        </tr>
+        <tr>
+            <td> Address  </td>
+            <td> <input ng-model="client.address" > </td>
+        </tr>
+        <tr>
+            <td> Description  </td>
+            <td> <input ng-model="client.description"> </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="btn2" ng-click="saveClient()"> Save  </td>
+        </tr>
+    </table>
+    
+</div>
+<div class="fader" ng-show="show.moduleWin"  ng-click="show.moduleWin=!show.moduleWin">

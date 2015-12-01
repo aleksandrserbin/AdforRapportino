@@ -1,0 +1,35 @@
+<div class="btn1" ng-click="resetPassword()">Reset Password</div>
+<table ng-init="staffInfo()">
+    
+    <tr>
+        <td>Name</td>
+        <td><input ng-model="staff.name"></td>
+    </tr>
+    <tr>
+        <td>Second Name</td>
+        <td><input ng-model="staff.sname"></td>
+    </tr>
+    <tr>
+        <td>Company</td>
+        <td>
+            <select ng-model="company">
+                <option ng-repeat="c in companies" value="{{c.id}}">{{c.name}}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Fiscal</td>
+        <td><input ng-model="staff.fiscal"></td>
+    </tr>
+    <tr>
+        <td>Username</td>
+        <td><input ng-model="staff.username"></td>
+    </tr>
+    <tr>
+        <td>Rights</td>
+        <td><input ng-model="staff.scope"></td>
+    </tr>
+    <tr>
+        <td colspan="2"><button ng-click="saveStaff()">{{msg["save"]}}</button></td>
+    </tr>
+</table>

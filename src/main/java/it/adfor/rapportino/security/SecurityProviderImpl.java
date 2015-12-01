@@ -11,8 +11,8 @@ public class SecurityProviderImpl implements SecurityProvider{
     public boolean hasAccess(Object cuds, Integer id){
         if (cuds instanceof CurrentUserDetails) {
             CurrentUserDetails cud = (CurrentUserDetails) cuds;
-            return cud!=null && (cud.getScope().equals("ADM") || 
-                cud.getStaffId().equals(id));
+            return   (cud.getScope().equals("ROLE_ADM") || 
+                id.equals(cud.getStaffId())) && cud!=null;
         }
         return false;
     }

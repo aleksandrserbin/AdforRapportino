@@ -23,8 +23,13 @@ public class StaffController {
     }
     
     @RequestMapping( method=RequestMethod.PUT)
-    public void updateStaff(@RequestBody Staff s){
-        staffRepository.save(s);
+    public Integer updateStaff(@RequestBody Staff s){
+        return staffRepository.save(s).getId();
     }
     
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public Iterable<Staff> getStaff(){
+        return staffRepository.findAll();
+    }
 }

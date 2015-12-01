@@ -1,0 +1,31 @@
+<div class="btn1" ng-click="showEditDivisions(null)">Add division</div>
+<table data-ng-init="initDivisions()" class="activityOutput">
+    <tr>
+        <td style="background-color:#FCBB2D">Id</td>
+        <td style="background-color:#FCBB2D">Name</td>
+        <td style="background-color:#FCBB2D">Edit</td>
+    </tr>
+    <tr>
+        
+    </tr>
+    <tr ng-repeat="d in divisions" >
+        <td>{{d.id}}</td>
+        <td>{{d.name}}</td>
+        <td ng-click="showEditDivisions(d)">Edit</td>
+    </tr>
+</table>
+
+<div class="module-win" ng-show="show.moduleWin">
+    <table>
+        <tr>
+            <td> Name  </td>
+            <td> <input ng-model="division.name"> </td>
+        </tr>
+        <tr>
+            <td class="btn1" ng-click="saveDivision()"> Save  </td>
+            <td class="btn1" ng-click="deleteDivision()"> Delete  </td>
+        </tr>
+    </table>
+    
+</div>
+<div class="fader" ng-show="show.moduleWin"  ng-click="show.moduleWin=!show.moduleWin">

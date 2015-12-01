@@ -1,0 +1,20 @@
+var msg = new Map();
+msg["fill"] = "Fill Timesheet";
+msg["watch"] = "Watch My Data";
+msg["sum"] = "Watch Data Summary";
+msg["mng"]="Managed Projects";
+msg["pset"]="Personal Settings";
+msg["aa"]="Add Acivity";
+msg["c"]="Client";
+msg["p"]="Project";
+msg["d"]="Date";
+msg["fillseveral"]="Fill Seveeral Dates";
+msg["from"]="From";
+msg["to"]="To";
+msg["hours"]="Hours";
+msg["typeN"]="Type N";
+msg["desc"]="Description";
+msg["note"]="Note";
+msg["place"]="Place";
+msg["save"]="Save";
+

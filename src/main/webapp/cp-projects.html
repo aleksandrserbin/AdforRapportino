@@ -1,0 +1,40 @@
+<div class="btn1" ng-click="setid(null,'projects',true)">Add project</div>
+<div class="filterPanel">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td><input ng-model="id"></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td><input ng-model="name"></td>
+        </tr>
+        <tr>
+            <td>Client</td>
+            <td><input ng-model="client"></td>
+        </tr>
+    </table>
+    
+</div>
+<table ng-init="initProjects()" class="activityOutput">
+    <tr>
+        <td style="background-color:#FCBB2D">Id</td>
+        <td style="background-color:#FCBB2D">Name</td>
+        <td style="background-color:#FCBB2D">Status</td>
+        <td style="background-color:#FCBB2D">Began</td>
+        <td style="background-color:#FCBB2D">End</td>
+        <td style="background-color:#FCBB2D">Edit</td>
+        <td style="background-color:#FCBB2D">Delete</td>
+    </tr>
+    <tr ng-repeat="p in projects | filter:{client:{name:client}}
+                | filter:{id:id} 
+                | filter:{name:name}">
+        <td>{{p.id}}</td>
+        <td>{{p.name}}</td>
+        <td>{{p.status}}</td>
+        <td>{{p.begin}}</td>
+        <td>{{p.end}}</td>
+        <td><img src="res/edit.gif" ng-click="setid(p.id,'projects')"></td>
+        <td><img src="res/delete.gif" ng-click="del(p.id)"></td>
+    </tr>
+</table>

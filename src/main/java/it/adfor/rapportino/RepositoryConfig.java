@@ -6,8 +6,12 @@
 package it.adfor.rapportino;
 
 import it.adfor.rapportino.model.Activity;
+import it.adfor.rapportino.model.Client;
+import it.adfor.rapportino.model.Company;
+import it.adfor.rapportino.model.Division;
 import it.adfor.rapportino.model.Project;
 import it.adfor.rapportino.model.Staff;
+import it.adfor.rapportino.model.Type;
 import it.adfor.rapportino.model.User;
 import org.springframework.boot.autoconfigure.data.rest.SpringBootRepositoryRestMvcConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -21,5 +25,9 @@ public class RepositoryConfig  extends SpringBootRepositoryRestMvcConfiguration 
         config.exposeIdsFor(Activity.class);
         config.exposeIdsFor(Project.class);
         config.exposeIdsFor(Staff.class);
+        config.exposeIdsFor(Company.class);
+        config.exposeIdsFor(Client.class);
+        config.exposeIdsFor(Division.class);
+        config.exposeIdsFor(Type.class);
     }
 }

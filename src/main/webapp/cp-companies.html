@@ -1,0 +1,37 @@
+<div class="btn1" ng-click="showEditCompanies(null)">Add company</div>
+<table data-ng-init="initCompanies()" class="activityOutput">
+    <tr>
+        <td style="background-color:#FCBB2D">Id</td>
+        <td style="background-color:#FCBB2D">Name</td>
+        <td style="background-color:#FCBB2D">Fiscal</td>
+        <td style="background-color:#FCBB2D">Edit</td>
+    </tr>
+    <tr>
+        
+    </tr>
+    <tr ng-repeat="c in companies" >
+        <td>{{c.id}}</td>
+        <td>{{c.name}}</td>
+        <td>{{c.fiscal}}</td>
+        <td ng-click="showEditCompanies(c)">Edit</td>
+    </tr>
+</table>
+
+<div class="module-win" ng-show="show.moduleWin">
+    <table>
+        <tr>
+            <td> Name  </td>
+            <td> <input ng-model="company.name"> </td>
+        </tr>
+        <tr>
+            <td> Fiscal  </td>
+            <td> <input ng-model="company.fiscal" > </td>
+        </tr>
+        <tr>
+            <td class="btn1" ng-click="saveCompany()"> Save  </td>
+            <td class="btn1" ng-click="deleteCompany()"> Delete  </td>
+        </tr>
+    </table>
+    
+</div>
+<div class="fader" ng-show="show.moduleWin"  ng-click="show.moduleWin=!show.moduleWin">

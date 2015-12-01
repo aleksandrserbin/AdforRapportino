@@ -4,16 +4,16 @@
     Add Activity:<br>
     <table>
         <tr>
-            <td> Client</td>
+            <td>{{msg['c']}}</td>
             <td>
                 <!--<input ng-model="client" ng-change="filterProjects()">-->
                 <select ng-model="client"  ng-change="filterProjects()">
-                    <option ng-repeat="c in clients | orderBy:name" value="{{c.name}}">{{c.name}}</option>
+                    <option ng-repeat="c in clients | orderBy:'name'" value="{{c.name}}">{{c.name}}</option>
                 </select>
             </td>
         </tr>
         <tr>
-            <td> Project*</td>
+            <td> {{msg['p']}}*</td>
             <td>
                 <select  style="width:80%;" ng-model="projid" ng-change="validate()"> 
                     <option ng-repeat="p in projects" value="{{p.id}}">{{p.id}} - {{p.name}}</option>
@@ -23,41 +23,41 @@
             </td>
         </tr>
         <tr ng-show="!fillseveraldates">
-            <td> Date*</td>
+            <td> {{msg['d']}}*</td>
             <td><input ng-model="date" type="date" ng-change="validate()"></td>
         </tr>
         <tr>
-            <td> Fill several days</td>
+            <td> {{msg['fillseveral']}}</td>
             <td><input ng-model="fillseveraldates" type="checkbox" ng-change="validate()"></td>
         </tr>
         <tr ng-show="fillseveraldates">
-            <td> From*</td>
+            <td> {{msg['from']}}*</td>
             <td><input ng-model="fromDate" type="date"></td>
         </tr>
         <tr ng-show="fillseveraldates">
-            <td> To*</td>
+            <td> {{msg['to']}}*</td>
             <td><input ng-model="toDate" type="date"></td>
         </tr>
         <tr>
-            <td>Hours*</td>
+            <td>{{msg['hours']}}*</td>
             <td><input ng-model="hours" type="text"></td>
         </tr>
         <tr>
-            <td>Type N</td>
+            <td>{{msg['typeN']}}</td>
             <td><input ng-model="type" type="checkbox"></td>
         </tr>
         <tr>
-            <td>Description</td>
+            <td>{{msg['desc']}}</td>
             <td><textarea style="max-width: 100%;width: 100%;resize:vertical;" ng-model="desc" ></textarea></td>
         </tr>
         <tr>
-            <td>Note</td>
+            <td>{{msg['note']}}</td>
             <td><input ng-model="note"></td>
         </tr>
         <tr>
-            <td>Place</td>
+            <td>{{msg['place']}}</td>
             <td><input ng-model="place"></td>
         </tr>
     </table>
-    <button ng-click="add()">Add activity</button>
+    <button ng-click="add()">{{msg['save']}}</button>
 </div>

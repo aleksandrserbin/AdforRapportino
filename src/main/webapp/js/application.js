@@ -46,6 +46,41 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         url: "/personal",
         templateUrl: "act-personal.html",
         controller: "StaffController"
+    }).state("/cp", {
+        url: "/controlPanel",
+        templateUrl: "cp.html",
+        controller: "AdminController"
+    }).state("/cp.staff", {
+        url: "staff",
+        templateUrl: "cp-staff.html",
+        controller: "AdminController"
+    }).state("/cp.infostaff", {
+        url: "staff/info",
+        templateUrl: "cp-staff-info.html",
+        controller: "AdminController"
+    }).state("/cp.projects", {
+        url: "projects",
+        templateUrl: "cp-projects.html",
+        controller: "AdminController",
+        params : {
+            query:""
+        }
+    }).state("/cp.infoprojects", {
+        url: "projects/info",
+        templateUrl: "cp-projects-info.html",
+        controller: "AdminController"
+    }).state("/cp.clients", {
+        url: "clients",
+        templateUrl: "cp-clients.html",
+        controller: "AdminController"
+    }).state("/cp.companies", {
+        url: "companies",
+        templateUrl: "cp-companies.html",
+        controller: "AdminController"
+    }).state("/cp.divisions", {
+        url: "divisions",
+        templateUrl: "cp-divisions.html",
+        controller: "AdminController"
     });
 });
 
@@ -72,7 +107,8 @@ module.controller('UserController', function ($scope, $http, $state, $localStora
                             $rootScope.user = new Object();
                             $rootScope.user.staffId = response.data.user.staffId;
                             $rootScope.user.scope = response.data.user.scope;
-                            $state.go("/act");
+                            if ($rootScope.user.scope=="ROLE_ADM") $state.go("/cp");
+                            else $state.go("/act");
                         } else{
                             $rootScope.authorized = false;
                         }
@@ -90,8 +126,8 @@ module.controller('UserController', function ($scope, $http, $state, $localStora
     }
 
     $scope.logout = function logout() {
-        $localStorage.rights = null;
-        $localStorage.userid = null;
+        $rootScope.authorized = false;
+        delete $rootScope.user;
         $localStorage.$reset();
         $state.go("/");
     }

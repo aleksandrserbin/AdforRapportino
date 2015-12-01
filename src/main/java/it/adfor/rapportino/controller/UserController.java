@@ -39,11 +39,31 @@ public class UserController {
         return userRepository.findByStaffid(id);
     }
     
-    @RequestMapping(method=RequestMethod.PUT)
-    void setUser(@RequestBody User u, @RequestParam("password") String pass) {
-        u.setPassword(pass);
-        System.out.println(u.getStaffId());
+    @RequestMapping(value="{id}",method=RequestMethod.PUT)
+    void resetPassword(@PathVariable Integer id) {
+        User u =  userRepository.findByStaffid(id);
+        u.setPassword("123456");
         userRepository.save(u);
+    }
+    
+    @RequestMapping(method=RequestMethod.PUT)
+    void setUserWithPassword(@RequestBody User u, @RequestParam("password") String pass) {
+        u.setPassword(pass);
+        userRepository.save(u);
+    }
+    
+    @RequestMapping(value="add",method=RequestMethod.PUT)
+    void setUser(@RequestBody User u) {
+        User user = userRepository.findByStaffid(u.getStaffId());
+        if (user!=null){
+            String password = user.getPassword();
+            userRepository.delete(user);
+            u.setPassword(password);
+            userRepository.save(u);
+        } else {
+            u.setPassword("123456");
+            userRepository.save(u);
+        }
     }
     
     @RequestMapping(value = "cur", method = RequestMethod.GET)

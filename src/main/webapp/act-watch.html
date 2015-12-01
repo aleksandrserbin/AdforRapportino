@@ -4,8 +4,8 @@
     <p>Search by project name</p>
     <input ng-model="searchpname">
     <p>You can select dates, between which you want to get data</p>
-    From: <input ng-model="start" type="date">
-    To: <input ng-model="end" type="date">
+    {{msg['from']}}: <input ng-model="start" type="date">
+    {{msg['to']}}: <input ng-model="end" type="date">
     <button ng-click="applyDates()">Apply</button>
     <button ng-click="update()">Reset</button>
     <button ng-click="report()">Report</button>
