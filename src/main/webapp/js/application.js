@@ -27,8 +27,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         controller: "ActivityController",
         params : {
             name:"",
-            bdate: new Date(new Date().getFullYear(),new Date().getMonth(),1),
-            edate: new Date(new Date().getFullYear(),new Date().getMonth()+1,1)
+            bdate: null,
+            edate: null
         }
     }).state("/act.watchs", {
         url: "/mysummary",
@@ -81,6 +81,26 @@ module.config(function ($stateProvider, $urlRouterProvider) {
         url: "divisions",
         templateUrl: "cp-divisions.html",
         controller: "AdminController"
+    }).state("/cp.types", {
+        url: "types",
+        templateUrl: "cp-types.html",
+        controller: "AdminController"
+    }).state("/cp.act", {
+        url: "activities",
+        templateUrl: "cp-activities.html",
+        controller: "AdminController"
+    }).state("/cp.reports", {
+        url: "reports",
+        templateUrl: "cp-reports.html",
+        controller: "AdminController"
+    }).state("/cp.reports.staff", {
+        url: "staff",
+        templateUrl: "cp-reports-staff.html",
+        controller: "AdminController"
+    }).state("/cp.reports.proj", {
+        url: "projects",
+        templateUrl: "cp-reports-proj.html",
+        controller: "AdminController"
     });
 });
 
@@ -88,8 +108,10 @@ module.config(function ($stateProvider, $urlRouterProvider) {
 
 
 module.controller('UserController', function ($scope, $http, $state, $localStorage, $rootScope) {
-
-
+    $scope.gui =  new Object();
+    $scope.gui.show = false;
+    $scope.gui.style= {};
+    $scope.message="";
     $scope.login = login;
     function login() {
         $http({
@@ -99,7 +121,7 @@ module.controller('UserController', function ($scope, $http, $state, $localStora
                 username: $scope.username,
                 password: $scope.pass
             }
-        }).success(function () {
+        }).then(function () {
             $http.get("users/cur").then(
                     function successCallback(response) {
                         if (response.data.user) {
@@ -114,12 +136,12 @@ module.controller('UserController', function ($scope, $http, $state, $localStora
                         }
                             
                     }, function failCallback() {
-                $rootScope.authorized = false;
+                        $rootScope.authorized = false;
             });
-
-
-
-
+        }, function errorCallback(){
+            $scope.gui.message = "Wrong username or password!";
+            $scope.gui.style={'background-color': '#FF8080', 'padding': '5px', "border": "2px solid red", "text-align": "center"};
+            $scope.gui.show = true;
         });
 
 
@@ -134,15 +156,15 @@ module.controller('UserController', function ($scope, $http, $state, $localStora
 })
 
 
-module.controller('ErrorController', function ($scope, $localStorage, $state, $http) {
-    var errCode = $localStorage.err;
+module.controller('ErrorController', function ($scope, $localStorage, $state, $http, $routeParams) {
+    var errCode = $routeParams.code;
+    console.log($routeParams);
     console.log(errCode);
-
     $http({
         method: 'GET',
         url: "err/" + errCode
     }).then(function successCallback(response) {
-
+        console.log("suc");
         $scope.errmsg = response.data.msg;
         $localStorage.err = null;
     }, function errCallback(response) {

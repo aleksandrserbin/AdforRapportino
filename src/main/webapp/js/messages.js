@@ -17,4 +17,5 @@ msg["desc"]="Description";
 msg["note"]="Note";
 msg["place"]="Place";
 msg["save"]="Save";
-
+months = ["January","February","March","April","May","June","July","August",
+    "September","October","November","December"];

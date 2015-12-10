@@ -9,6 +9,7 @@ import it.adfor.rapportino.model.Staff;
 import it.adfor.rapportino.model.User;
 import it.adfor.rapportino.repository.UserRepository;
 import it.adfor.rapportino.security.CurrentUserDetails;
+import java.io.IOException;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,32 +28,38 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/")
 public class UserController {
     
     @Autowired
     UserRepository userRepository;
     
     
-    @RequestMapping(value="{id}",method=RequestMethod.GET)
+    @RequestMapping(value="users/{id}",method=RequestMethod.GET)
     User getUser(@PathVariable Integer id) {
         return userRepository.findByStaffid(id);
     }
     
-    @RequestMapping(value="{id}",method=RequestMethod.PUT)
+    @RequestMapping(value="users/{id}",method=RequestMethod.DELETE)
+    void deleteUser(@PathVariable Integer id) {
+        User u = userRepository.findByStaffid(id);
+        userRepository.delete(u);
+    }
+    
+    @RequestMapping(value="users/{id}",method=RequestMethod.PUT)
     void resetPassword(@PathVariable Integer id) {
         User u =  userRepository.findByStaffid(id);
         u.setPassword("123456");
         userRepository.save(u);
     }
     
-    @RequestMapping(method=RequestMethod.PUT)
+    @RequestMapping(value="users/",method=RequestMethod.PUT)
     void setUserWithPassword(@RequestBody User u, @RequestParam("password") String pass) {
         u.setPassword(pass);
         userRepository.save(u);
     }
     
-    @RequestMapping(value="add",method=RequestMethod.PUT)
+    @RequestMapping(value="users/add",method=RequestMethod.PUT)
     void setUser(@RequestBody User u) {
         User user = userRepository.findByStaffid(u.getStaffId());
         if (user!=null){
@@ -66,7 +73,7 @@ public class UserController {
         }
     }
     
-    @RequestMapping(value = "cur", method = RequestMethod.GET)
+    @RequestMapping(value = "users/cur", method = RequestMethod.GET)
     public UserDetails getCurrentUser(HttpServletResponse r) throws Exception{
         Object o  =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (o instanceof UserDetails) return (CurrentUserDetails) o;

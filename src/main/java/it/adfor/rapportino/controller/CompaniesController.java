@@ -8,6 +8,7 @@ import it.adfor.rapportino.repository.ClientRepository;
 import it.adfor.rapportino.repository.CompanyRepository;
 import it.adfor.rapportino.repository.DivisionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,7 +51,10 @@ public class CompaniesController {
     public void saveClient(@RequestBody Client c){
         clientRepository.save(c);
     }
-    
+    @RequestMapping(value="clients/{id}",method=RequestMethod.DELETE)
+    public void deleteClient(@PathVariable("id") Integer id){
+        clientRepository.delete(id);
+    }
     @RequestMapping(value="divisions",method=RequestMethod.GET)
     public Iterable<Division> getDivisions(){
         return divisionRepository.findAll();

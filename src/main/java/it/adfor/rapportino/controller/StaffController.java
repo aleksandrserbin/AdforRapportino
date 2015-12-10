@@ -22,6 +22,11 @@ public class StaffController {
         return staffRepository.findOne(id);
     }
     
+    @RequestMapping(value="{id}", method=RequestMethod.DELETE)
+    public void deleteStaff(@PathVariable Integer id){
+        staffRepository.delete(id);
+    }
+    
     @RequestMapping( method=RequestMethod.PUT)
     public Integer updateStaff(@RequestBody Staff s){
         return staffRepository.save(s).getId();

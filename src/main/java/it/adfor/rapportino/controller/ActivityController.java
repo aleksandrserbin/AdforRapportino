@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +48,46 @@ public class ActivityController {
         }
         return acts;
     }
+    
+    @RequestMapping(value = "submitted/{userid}", method = RequestMethod.GET)
+    Collection<Activity> getSubmittedActivities(@PathVariable Integer userid) {
+        Collection<Activity> acts = activityRepository
+                .findByEmplIdAndSubmittedTrue(userid);
+        for (Activity act : acts) {
+            Hibernate.initialize(act.getProj().getId());
+        }
+        return acts;
+    }
+    
+    @RequestMapping(value="{id}", method = RequestMethod.PATCH)
+    public void submitSingle(@PathVariable("id") Integer id){
+        Activity a = activityRepository.findOne(id);
+        a.setSubmitted(Boolean.TRUE);
+        activityRepository.save(a);
+    }
+    
+    @RequestMapping(value="{id}/u", method = RequestMethod.PATCH)
+    public void unsubmitSingle(@PathVariable("id") Integer id){
+        Activity a = activityRepository.findOne(id);
+        a.setSubmitted(Boolean.FALSE);
+        activityRepository.save(a);
+    }
+    
+    @RequestMapping(value="{userid}/{m}", method = RequestMethod.PUT)
+    public void submit(@PathVariable("userid") Integer id, @PathVariable("m") Integer m){
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.MONTH, m);
+        c.set(Calendar.DATE, 1);
+        Date b = c.getTime();
+        c.set(Calendar.DATE, c.getActualMaximum(Calendar.DATE));
+        Date e = c.getTime();
+        Collection<Activity> col = activityRepository
+                .findByDateBetweenAndEmplId(b, e, id);
+        for (Activity a:col){
+            a.setSubmitted(Boolean.TRUE);
+            activityRepository.save(a);
+        }
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "{userid}/{s}_{e}")
     Collection<Activity> getActivities(@PathVariable("s") String ss, @PathVariable("e") String se, @PathVariable("userid") Integer id) {
@@ -54,6 +95,8 @@ public class ActivityController {
         try {
             Date s = formatter.parse(ss);
             Date e = formatter.parse(se);
+            System.out.println(s);
+            System.out.println(e);
             Collection<Activity> acts
                     = activityRepository.findByDateBetweenAndEmplId(s, e, id);
             for (Activity act : acts) {

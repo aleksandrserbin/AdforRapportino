@@ -28,6 +28,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class Main {
     public static void main(String[] args){
         SpringApplication.run(new Object[]{Main.class, RepositoryConfig.class, AppConfig.class, SecurityConfig.class}, args);
-        
     }
 }

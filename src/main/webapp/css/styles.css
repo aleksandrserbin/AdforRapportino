@@ -260,6 +260,7 @@ nav div:hover{
     background-color: #FCBB2D;
     padding:5px;
     border:1px solid #E3A828;
+    margin:5px 0;
 }
 
 .summaryTable td:hover{
@@ -267,8 +268,11 @@ nav div:hover{
 }
 
 #sidemenu{
+    background-color: #2B3E75;
+    width:18%;
     display: inline-block;
     color:white;
+    height: 100%;
 }
 
 #sidemenu div{
@@ -288,6 +292,8 @@ nav div:hover{
     display: inline-block;
     padding:10px;
     vertical-align: top;
+    width:75%;
+    margin:0 auto;
 }
 
 .btn1 {
@@ -297,6 +303,7 @@ nav div:hover{
     background-color: #FCBB2D;
     color:white;
     display:inline-block;
+    margin: 10px 0;
 }
 .btn1:hover {
     border: 1px solid #FCBB2D;

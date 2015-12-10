@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package it.adfor.rapportino.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -44,6 +38,7 @@ public class Activity implements Serializable{
     private Integer hours;
     @Column(name="type_id")
     private Integer typeId;
+    private Boolean submitted;
 
     public Activity(Staff empl, Project proj, Date date, String description, String place, String note, Integer hours) {
         this.empl = empl;
@@ -86,6 +81,14 @@ public class Activity implements Serializable{
         return proj;
     }
 
+    public Boolean getSubmitted() {
+        return submitted;
+    }
+
+    public void setSubmitted(Boolean submitted) {
+        this.submitted = submitted;
+    }
+    
     public Date getDate() {
         return date;
     }

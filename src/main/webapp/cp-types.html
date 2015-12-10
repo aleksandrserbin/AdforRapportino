@@ -1,5 +1,5 @@
-<div class="btn1" ng-click="showEditDivisions(null)">Add division</div>
-<table data-ng-init="initDivisions()" class="activityOutput">
+<div class="btn1" ng-click="showEditTypes(null)">Add division</div>
+<table data-ng-init="initTypes()" class="activityOutput">
     <tr>
         <td style="background-color:#FCBB2D">Id</td>
         <td style="background-color:#FCBB2D">Name</td>
@@ -8,10 +8,10 @@
     <tr>
         
     </tr>
-    <tr ng-repeat="d in divisions" >
+    <tr ng-repeat="d in types" >
         <td>{{d.id}}</td>
         <td>{{d.name}}</td>
-        <td ng-click="showEditDivisions(d)">Edit</td>
+        <td ng-click="showEditTypes(d)">Edit</td>
     </tr>
 </table>
 
@@ -20,13 +20,14 @@
     <table>
         <tr>
             <td> Name  </td>
-            <td> <input ng-model="division.name"> </td>
+            <td> <input ng-model="type.name"> </td>
         </tr>
         <tr>
-            <td><div class="btn1" ng-click="saveDivision()"> Save  </div></td>
-            <td><div class="btn1" ng-click="deleteDivision()"> Delete  </div></td>
+            <td><div class="btn1" ng-click="saveType()"> Save  </div></td>
+            <td><div class="btn1" ng-click="deleteType()"> Delete  </div></td>
         </tr>
     </table>
     
 </div>
 <div class="fader" ng-show="show.moduleWin"  ng-click="show.moduleWin=!show.moduleWin">
+

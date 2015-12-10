@@ -1,4 +1,5 @@
 <div ng-controller="UserController" id="logform">
+    <div ng-show="gui.show" ng-style="gui.style">{{gui.message}}</div>
     <p> Please, log in to Rapportino system to continue</p>
     <table>
         <tr>
@@ -13,7 +14,4 @@
             <td colspan="2"><button ng-click="login()" ng-enter="login()">Submit</button></td>
         </tr>
     </table>
-    
-   
-    
 </div>

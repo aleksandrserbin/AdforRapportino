@@ -18,6 +18,7 @@
 </table>
 
 <div class="module-win" ng-show="show.moduleWin">
+    <div ng-show="show.show" ng-style="show.style">{{show.message}}</div>
     <table>
         <tr>
             <td> Name  </td>
@@ -28,8 +29,8 @@
             <td> <input ng-model="company.fiscal" > </td>
         </tr>
         <tr>
-            <td class="btn1" ng-click="saveCompany()"> Save  </td>
-            <td class="btn1" ng-click="deleteCompany()"> Delete  </td>
+            <td><div class="btn1" ng-click="saveCompany()"> Save </div> </td>
+            <td><div class="btn1" ng-click="deleteCompany()"> Delete </div> </td>
         </tr>
     </table>
     

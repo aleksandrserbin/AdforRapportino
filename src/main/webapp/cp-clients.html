@@ -20,6 +20,7 @@
 </table>
 
 <div class="module-win" ng-show="show.moduleWin">
+    <div ng-show="show.show" ng-style="show.style">{{show.message}}</div>
     <table>
         <tr>
             <td> Name  </td>
@@ -34,7 +35,8 @@
             <td> <input ng-model="client.description"> </td>
         </tr>
         <tr>
-            <td colspan="2" class="btn2" ng-click="saveClient()"> Save  </td>
+            <td><div  class="btn1" ng-click="saveClient()"> Save  </div></td>
+            <td><div  class="btn1" ng-click="deleteClient()"> Delete  </div></td>
         </tr>
     </table>
     

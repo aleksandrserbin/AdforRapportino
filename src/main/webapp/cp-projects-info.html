@@ -1,8 +1,7 @@
+<div ng-show="show.show" ng-style="show.style">{{show.message}}</div>
+<div class="btn1" ng-click="projectReport()">Get All-time Report</div>
+<div class="btn1" ng-click="projectReport(true)">Get Report for This month</div>
 <table ng-init="projectInfo()">
-    <tr ng-show="allowId">
-        <td>Id</td>
-        <td><input ng-model="project.id"></td>
-    </tr>
     <tr>
         <td>Name</td>
         <td><input ng-model="project.name"></td>
@@ -18,7 +17,7 @@
     <tr>
         <td>Project Manager</td>
         <td>
-            <select ng-model="data.pm" id="pm">
+            <select ng-model="data.pm" id="pm" >
                 <option ng-repeat="s in staff" value="{{s.id}}">{{s.sname}}</option>
             </select>
         </td>
@@ -26,7 +25,7 @@
     <tr>
         <td>Client Manager</td>
         <td>
-            <select ng-model="data.cm" id="cm">
+            <select ng-model="data.cm" id="cm" >
                 <option ng-repeat="s in staff" value="{{s.id}}">{{s.sname}}</option>
             </select>
         </td>

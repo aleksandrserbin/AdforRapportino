@@ -1,3 +1,4 @@
+<div ng-show="show.show" ng-style="show.style">{{show.message}}</div>
 <div class="btn1" ng-click="resetPassword()">Reset Password</div>
 <table ng-init="staffInfo()">
     
@@ -27,7 +28,12 @@
     </tr>
     <tr>
         <td>Rights</td>
-        <td><input ng-model="staff.scope"></td>
+        <td>
+            <select ng-model="staff.scope">
+                <option ng-value="ROLE_USER">ROLE_USER</option>
+                <option ng-value="ROLE_ADM">ROLE_ADM</option>
+            </select>
+        </td>
     </tr>
     <tr>
         <td colspan="2"><button ng-click="saveStaff()">{{msg["save"]}}</button></td>

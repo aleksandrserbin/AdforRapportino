@@ -1,3 +1,4 @@
+<div ng-show="show.show" ng-style="show.style">{{show.message}}</div><br>
 <div class="btn1" ng-click="setid(null,'staff')">Add Employee</div>
 <table ng-init="initStaff()" class="activityOutput">
     <tr>
@@ -11,7 +12,10 @@
         <td>{{s.name+ " "+s.sname}}</td>
         <td>{{s.company.name}}</td>
         <td><img src="res/edit.gif" ng-click="setid(s.id,'staff')"></td>
-        <td><img src="res/edit.gif" ng-click="report(s.id)"></td>
-         <td><img src="res/delete.gif" ng-click="del(s.id)"></td>
+        <td>
+            <img src="res/pdf.gif" ng-click="reportStaff(s.id,'pdf')">
+            <img src="res/sheet.png" ng-click="reportStaff(s.id,s.sname+'.xlsx')">
+        </td>
+        <td><img src="res/delete.gif" ng-click="deleteStaff(s)"></td>
     </tr>
 </table>

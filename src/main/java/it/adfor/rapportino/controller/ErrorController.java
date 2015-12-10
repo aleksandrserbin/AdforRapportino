@@ -21,6 +21,7 @@ public class ErrorController {
         switch (code){
             case "0" : return "{\"msg\": \" Wrong username or password\"}";
             case "1" : return "{\"msg\": \" No access\"}";
+            case "15":return "{\"msg\": \" No data\"}";
         }
         return null;
     }

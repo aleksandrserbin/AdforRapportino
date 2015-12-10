@@ -35,8 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/api/**")
                 .hasAnyRole("USER", "MOD", "ADM").
                 and().addFilterAfter(new CSRFTokenInterceptor(), CsrfFilter.class);
-       
-
     }
 
     @Override

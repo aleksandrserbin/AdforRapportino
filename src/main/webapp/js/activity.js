@@ -10,8 +10,11 @@ module.factory('Activity', function ($resource) {
                     $state.go("/err");
                     $localStorage.err = 1;
                 }
+                $scope.curmonth = months[new Date().getMonth()];
                 $scope.show = new Object();
                 $scope.show.show = false;
+                $scope.show.submit = false;
+                $scope.show.moduleWin = false;
                 $scope.show.showFilters = false;
                 $scope.show.style = {};
                 $scope.show.errorStyle = {'background-color': '#FF8080', 'padding': '5px', "border": "2px solid red", "text-align": "center"};
@@ -32,7 +35,7 @@ module.factory('Activity', function ($resource) {
                 $scope.projectActivities = $localStorage.projectActivities;
                 $scope.searchpname = $state.params.name;
                 if ($state.params.bdate!=null) $scope.start = $state.params.bdate;
-                if ($state.params.edate!=null)$scope.end = $state.params.edate;
+                if ($state.params.edate!=null) $scope.end = $state.params.edate;
                 $scope.applyDates();
             }
 
@@ -47,6 +50,7 @@ module.factory('Activity', function ($resource) {
                 a.note = $scope.note;
                 a.place = $scope.place;
                 a.description = $scope.desc;
+                a.submitted = false;
                 if ($scope.type)
                     a.typeId = 5;
                 else
@@ -86,6 +90,7 @@ module.factory('Activity', function ($resource) {
             }
 
             $scope.applyDates = function () {
+                if ($scope.start==null || $scope.end==null) return;
                 var m = $scope.start.getMonth() + 1;
                 var s = $scope.start.getFullYear() + "-" + m + "-" + $scope.start.getDate();
                 m = $scope.end.getMonth() + 1;
@@ -99,7 +104,6 @@ module.factory('Activity', function ($resource) {
                         });
                 
             }
-            
             function checkIfFilled(){
                 var m = new Map();
                 var d  = new Date();
@@ -126,7 +130,7 @@ module.factory('Activity', function ($resource) {
                             $scope.show.message = "You have less than 8 hours on some dates!";
                             $scope.show.style = $scope.show.warningStyle;
                             $scope.show.show=true;
-                            return;
+                            return false;
                         }
                     });
                    
@@ -134,6 +138,10 @@ module.factory('Activity', function ($resource) {
             }
             
             $scope.resetDates = function () {
+                delete $state.params.bdate;
+                delete $state.params.edate;
+                $scope.start=null;
+                $scope.end=null;
                 update();
             }
 
@@ -194,16 +202,27 @@ module.factory('Activity', function ($resource) {
                 $scope.predicate = predicate;
             };
 
-            $scope.delete = function (id) {
-                $http.delete("api/activities/" + id).success(function () {
+            $scope.delete = function (a) {
+                if (a.submitted) {
+                    $scope.show.message = "This data is already subitted!";
+                    $scope.show.style = $scope.show.errorStyle;
+                    $scope.show.show = true;
+                    return;
+                }
+                $http.delete("api/activities/" + a.id).success(function () {
 
                     update();
                 });
             }
 
             $scope.edit = function (a) {
-                var mwin = document.getElementsByClassName("module-win")[0];
-                mwin.style.display = "inline-block";
+                if (a.submitted){
+                    $scope.show.message = "This data is already subitted!";
+                    $scope.show.style = $scope.show.errorStyle;
+                    $scope.show.show = true;
+                    return;
+                }
+                $scope.show.moduleWin =true;
                 $scope.projid = a.proj.id;
                 $scope.hours = a.hours;
                 if (a.typeId == 5)
@@ -226,6 +245,7 @@ module.factory('Activity', function ($resource) {
                 a.date = $scope.date;
                 a.note = $scope.note;
                 a.place = $scope.place;
+                a.submitted = false;
                 if ($scope.type)
                     a.typeId = 5;
                 else
@@ -245,7 +265,7 @@ module.factory('Activity', function ($resource) {
 
 
             function hide() {
-                document.getElementsByClassName("module-win")[0].style.display = "none";
+                $scope.show.moduleWin=false;
             }
 
             $scope.hide = hide;
@@ -294,8 +314,10 @@ module.factory('Activity', function ($resource) {
                     response[0].proj.status=="Attivo"?
                         $scope.show.closeButton = true :
                             $scope.show.closeButton = false;
-                    var name = response[0].empl.name + " " + response[0].empl.sname;
+                    
                     for (var i = 0; i < response.length; i++) {
+                        var name = response[i].empl.name + " " 
+                                + response[i].empl.sname;
                         if (map.has(response[i].empl.id)) {
                             var value = map.get(response[i].empl.id);
                             if (response[i].typeId == 5) {
@@ -326,7 +348,7 @@ module.factory('Activity', function ($resource) {
                         obj.push(temp);
                     });
                     $scope.activities = obj;
-
+                    console.log(obj);
                 });
             }
 
@@ -462,6 +484,63 @@ module.factory('Activity', function ($resource) {
                         end: e
                     }
                 })
+            }
+            
+            $scope.assureSubmit = function(){
+                $scope.show.message="Are you sure you want to submit data for"
+                            +$scope.curmonth+"?\n Data will be no longer editable";
+               
+                $scope.show.style=$scope.show.warningStyle;
+                $scope.show.show = true;
+                $scope.show.submit = true;
+            }
+            
+            $scope.submit = function(){
+                var d =  new Date();
+                $http.put("api/activities/"
+                        +$rootScope.user.staffId+"/"+d.getMonth())
+                        .success(function(response){
+                            $scope.show.message = "Data submitted!";
+                            $scope.show.style=$scope.show.successStyle;
+                            $scope.show.show = true;
+                            $scope.show.submit = false;
+                            update();
+                        });
+                
+            }
+            
+            $scope.submitSingle = function(a){
+                $http.patch("api/activities/"+a.id)
+                        .success(function(response){
+                            $scope.show.message = "Data submitted!";
+                            $scope.show.style=$scope.show.successStyle;
+                            $scope.show.show = true;
+                            $scope.show.submit = false;
+                        });
+                update();
+            }
+            
+            $scope.initMonths  =function(){
+                var d  = new Date();
+                $scope.months = months;
+                $scope.month = $scope.months[d.getMonth()];
+                $scope.year = d.getFullYear();
+            }
+            
+            $scope.applyMonth = function(){
+                var m = document.getElementById("month").selectedIndex;
+                m++;
+                var b = $scope.year+"-"+m+"-1";
+                m++;
+                if (m>12) {
+                    m =1;
+                    $scope.year++;
+                }
+                var e = $scope.year+"-"+m+"-1";
+                $http.get("api/activities/"+$rootScope.user.staffId+"/"+b+"_"+e)
+                        .success(function(response){
+                            $scope.activities = response;
+                        })
             }
             $scope.projects = $localStorage.projects;
 

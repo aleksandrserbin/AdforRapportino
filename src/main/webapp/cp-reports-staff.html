@@ -1,0 +1,43 @@
+<div data-ng-init="initReports()">
+    <table>
+        <tr>
+            <td>Employee</td>
+            <td>
+                <select ng-model="staffs" ng-show="staff">
+                    <option ng-repeat="s in staff" ng-value="s.id">{{s.name + " "+s.sname}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr ng-show="!show.dateSelector">
+            <td>Date</td>
+            <td>
+                <select ng-model="month" ng-init="initMonths()" ng-options="m for m in months" id="month"></select>
+                <input ng-model="year" value="2015">
+            </td>
+        </tr>
+        <tr ng-model="show.dateSelector">
+            <td> Detailed date</td>
+            <td><input type="checkbox" ng-model="show.dateSelector"></td>
+        </tr>
+        <tr ng-show="show.dateSelector">
+            <td>From</td>
+            <td>
+                <input ng-model="start" type="date">
+            </td>
+        </tr>
+        <tr ng-show="show.dateSelector">
+            <td>To</td>
+            <td>
+               <input ng-model="end" type="date">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="btn1" ng-click="staffReportHandler('pdf')">Get Report (PDF)</div>
+            </td>
+            <td>
+                <div class="btn1" ng-click="staffReportHandler('report.xlsx')">Get Report (Excel)</div>
+            </td>
+        </tr>
+    </table>
+</div>
