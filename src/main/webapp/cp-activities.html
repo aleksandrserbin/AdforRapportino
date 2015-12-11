@@ -12,7 +12,7 @@ Employee :
     {{msg['from']}}: <input ng-model="start" type="date">
     {{msg['to']}}: <input ng-model="end" type="date">
     <button ng-click="applyDates()">Apply</button>
-    <button ng-click="update()">Reset</button>
+    <button ng-click="resetDates()">Reset</button>
 </div>
 <table  class="activityOutput">
     <tr>
@@ -77,4 +77,4 @@ Employee :
     <div class="btn1" ng-click="addActivity(true)">Save</div>
     <div class="btn1" ng-click="show.moduleWin=!show.moduleWin">Close</div>
 </div>
-<div class="fader" style="width:80%" ng-show="show.moduleWin" ng-click="show.moduleWin=!show.moduleWin">
+<div class="fader" style="width:100%" ng-show="show.moduleWin" ng-click="show.moduleWin=!show.moduleWin">

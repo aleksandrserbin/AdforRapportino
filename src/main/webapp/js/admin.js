@@ -514,7 +514,12 @@ module.controller('AdminController', function ($scope, $rootScope, $http, $state
         $http.patch("api/activities/"+id+"/u").success(function(){
             loadActivities();
         })
-        
+    }
+    
+    $scope.resetDates = function(){
+        $scope.start = null;
+        $scope.end = null;
+        loadActivities();
     }
 
 })
