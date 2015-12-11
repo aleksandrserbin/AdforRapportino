@@ -16,17 +16,97 @@
             <a ui-sref=".personal">{{msg['pset']}}</a>
         </div>
     </nav>
-    
+
     <div ng-show = "show.loading" id="loadscreen"> <img src="res/loading.gif"></div>
     <script src="js/activity.js"></script>
     <div ui-view class="partial">
-       Welcome to adfro rapportino sample text here sample text here
-       sample text here sample text here
-       sample text here sample text here sample text here
-       sample text here sample text here sample text here
-       sample text here sample text here sample text here
-       sample text here sample text here
-    </div>
-    
 
-</div>
+
+        <div ng-show="show.show" ng-style="show.style">{{show.message}}
+            <div ng-show="show.submit" class="btn1" ng-click="submit()">Submit</div>
+        </div>
+        <div class="btn1" ng-click="assureSubmit()">Submit data for {{curmonth}}</div><br>
+        <select ng-model="month" ng-init="initMonths()" ng-options="m for m in months" id="month"></select>
+        <input ng-model="year" value="2015">
+        <div class="btn1"  ng-click="applyMonth()">Apply Dates</div>
+        <div id="filterPanel" ng-click="show.showFilters = !show.showFilters"> Filters </div>
+        <div ng-show="show.showFilters">
+            <p>Search by project name</p>
+            <input ng-model="searchpname">
+            <p>You can select dates, between which you want to get data</p>
+            {{msg['from']}}: <input ng-model="start" type="date">
+            {{msg['to']}}: <input ng-model="end" type="date">
+            <button ng-click="applyDates()">Apply</button>
+            <button ng-click="resetDates()">Reset</button>
+        </div>
+        <table  class="activityOutput" ng-init="update()">
+            <tr>
+                <td ng-click="reorder('proj.name')" style="background-color:#FCBB2D">Project name</td>
+                <td ng-click="reorder('typeId')" style="background-color:#FCBB2D">Type</td>
+                <td ng-click="reorder('date')" style="background-color:#FCBB2D" >Date</td>
+                <td ng-click="reorder('hours')" style="background-color:#FCBB2D">Hours</td>
+                <td ng-click="reorder('description')" style="background-color:#FCBB2D">Description</td>
+                <td style="background-color:#FCBB2D"> Submitted</td>
+                <td style="background-color:#FCBB2D"> Submit</td>
+                <td style="background-color:#FCBB2D"> Edit</td>
+                <td style="background-color:#FCBB2D"> Delete</td>
+            </tr>
+            <tr dir-paginate="a in activities | orderBy:predicate:reverse | filter:{ proj:{name:searchpname}} | itemsPerPage:50">
+                <td style="display:none">{{a.id}}</td>
+                <td>{{a.proj.name}}</td>
+                <td>{{a.typeId}}</td>
+                <td>{{a.date}}</td>
+                <td>{{a.hours}}</td>
+                <td>{{a.description}}</td>
+                <td ><img ng-show="a.submitted" src="res/check.png"></td>
+                <td ng-click="submitSingle(a)"><img src="res/upload.png"></td>
+                <td ng-click="edit(a)"><img src="res/edit.gif"></td>
+                <td ng-click="delete(a)"><img src="res/delete.gif"></td>
+
+            </tr> 
+        </table>
+        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="pagination.html"></dir-pagination-controls>
+        <div class="module-win" ng-show="show.moduleWin">
+
+            <table>
+                <tr>
+                    <td> Project Id</td>
+                    <td><input ng-model="projid" type="text"></td>
+                </tr>
+                <tr>
+                    <td> Date</td>
+                    <td><input ng-model="date" type="date"></td>
+                </tr>
+                <tr>
+                    <td>Hours</td>
+                    <td><input ng-model="hours" type="text"></td>
+                </tr>
+                <tr>
+                    <td>Type N</td>
+                    <td><input ng-model="type" type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td><textarea ng-model="desc" ></textarea></td>
+                </tr>
+                <tr>
+                    <td>Note</td>
+                    <td><input ng-model="note"></td>
+                </tr>
+                <tr>
+                    <td>Place</td>
+                    <td><input ng-model="place"></td>
+                </tr>
+            </table>
+            <div class="btn1" ng-click="save()">Save</div>
+            <div class="btn1" ng-click="hide()">Close</div>
+        </div>
+        <div class="fader" ng-show="show.moduleWin" ng-click="show.moduleWin = !show.moduleWin">
+
+
+
+
+        </div>
+
+
+    </div>
